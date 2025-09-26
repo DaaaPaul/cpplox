@@ -5,12 +5,23 @@
 Scanner::Scanner():source{}, tokens{}, start{0}, current{0}, line{0} {}
 Scanner::Scanner(std::string source):source{source}, tokens{}, start{0}, current{0}, line{0} {}
 
-bool Scanner::isAtEnd() const {
+bool Scanner::atEnd() const {
 	return current >= source.size();
 }
 
-char Scanner::currentAndIncrement() {
+char Scanner::consume() {
 	return source[current++];
+}
+
+char Scanner::peek() const {
+	if(atEnd()) return '\0';
+	else return source[current];
+}
+
+bool Scanner::currentIs(char expected) const {
+	if(atEnd()) return false;
+	else if(source[current] != expected) return false;
+	else return true;
 }
 
 void Scanner::addToken(TokenType type, std::vector<char> literal) {
@@ -22,7 +33,7 @@ void Scanner::addToken(TokenType type) {
 }
 
 void Scanner::scanToken() {
-	char c = currentAndIncrement();
+	char c = consume();
 	switch(c) {
 		case '(': addToken(TokenType::LEFT_PARENTHESE); break;
 		case ')': addToken(TokenType::RIGHT_PARENTHESE); break;
@@ -34,13 +45,27 @@ void Scanner::scanToken() {
 		case '+': addToken(TokenType::PLUS); break;
 		case ';': addToken(TokenType::SEMICOLON); break;
 		case '*': addToken(TokenType::STAR); break;
-		// MORE
-		default: Lox::reportError(line, "Undefined character");
+		case '!': (currentIs('=')) ? addToken(TokenType::NOT_EQUAL) : addToken(TokenType::NOT); break;
+		case '=': (currentIs('=')) ? addToken(TokenType::EQUAL_EQUAL) : addToken(TokenType::EQUAL); break;
+		case '>': (currentIs('=')) ? addToken(TokenType::GREATER_EQUAL) : addToken(TokenType::GREATER); break;
+		case '<': (currentIs('=')) ? addToken(TokenType::LESSER_EQUAL) : addToken(TokenType::LESSER); break;
+		case '/': 
+			if(currentIs('/')) {
+				while((peek() != '\n') && (!atEnd())) consume();
+			} else {
+				addToken(TokenType::SLASH);
+			}
+			break;
+		case ' ':
+		case '\r':
+		case '\t': break;
+		case '\n': ++line; break;
+		default: Lox::reportError(line, "Undefined character"); break;
 	}
 }
 
 std::vector<Token> Scanner::scanTokens() {
-	while(!isAtEnd()) {
+	while(!atEnd()) {
 		start = current;
 		scanToken();
 	}

@@ -17,8 +17,10 @@ class Scanner {
 	Scanner();
 	Scanner(std::string source);
 
-	bool isAtEnd() const;
-	char currentAndIncrement();
+	bool atEnd() const;
+	char consume();
+	char peek() const;
+	bool nextIs(char expected) const;
 	void addToken(TokenType type, std::vector<char> literal);
 	void addToken(TokenType type);
 	void scanToken();

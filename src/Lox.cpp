@@ -40,4 +40,5 @@ void Lox::run(std::string source) {
 
 void Lox::reportError(int line, std::string message) {
 	std::cerr << "(ERROR at line " << line << "): " << message << '\n';
+	hadError = true;
 }
