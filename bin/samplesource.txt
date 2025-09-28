@@ -1,0 +1,10 @@
+print "Hey!!!";
+var age = 3;
+
+dih;
+
+fun identity(var i) {
+	return i;
+}
+
+identity(age);

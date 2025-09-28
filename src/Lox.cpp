@@ -1,7 +1,10 @@
-#include "Lox.hpp"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
+#include "Lox.hpp"
+#include "Token.hpp"
+#include "Scanner.hpp"
 
 bool Lox::hadError = false;
 
@@ -35,7 +38,9 @@ void Lox::runPrompt() {
 }
 
 void Lox::run(std::string source) {
-	std::cout << source << '\n';
+	Scanner scanner(source);
+	std::vector<Token> tokens = scanner.scanTokens();
+	for(Token t: tokens) std::cout << t.toString() << '\n';	
 }
 
 void Lox::reportError(int line, std::string message) {
