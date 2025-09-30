@@ -31,12 +31,11 @@ void Lox::runPrompt() {
 	bool quit = false;
 
 	while(!quit) {
-		std::cout << '|';
+		std::cout << '>';
 		if(std::getline(std::cin, input)) {
 			run(input);
 		} else {
 			quit = true;
-			std::cout << '\n';
 		}
 		hadError = false;
 	}
