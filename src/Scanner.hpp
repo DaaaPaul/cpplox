@@ -12,7 +12,7 @@ class Scanner {
 	std::string source;
 	std::vector<Token> tokens;
 	int start;
-	int next;
+	int current;
 	int line;
 
 	public:
@@ -26,12 +26,13 @@ class Scanner {
 	char consume();
 	char peek() const;
 	char peekFar() const;
-	bool nextIs(char expected) const;
+	bool currentIs(char expected) const;
 	void addToken(TokenType type, std::any literal);
 	void addToken(TokenType type);
 	void stringLiteral();
 	void numericLiteral();
 	void identifierKeyword();
+	void blockComment();
 	void scanToken();
 	std::vector<Token> scanTokens();
 };

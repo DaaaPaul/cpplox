@@ -1,9 +1,10 @@
 #include "Scanner.hpp"
 #include "TokenType.h"
 #include "Lox.hpp"
+#include <iostream>
 
-Scanner::Scanner():source{}, tokens{}, start{0}, next{0}, line{1} {}
-Scanner::Scanner(std::string source):source{source}, tokens{}, start{0}, next{0}, line{1} {}
+Scanner::Scanner():source{}, tokens{}, start{0}, current{0}, line{1} {}
+Scanner::Scanner(std::string source):source{source}, tokens{}, start{0}, current{0}, line{1} {}
 
 const std::unordered_map<std::string, TokenType> Scanner::keywords = {
 	{"nil", TokenType::NIL},
@@ -40,31 +41,31 @@ bool Scanner::isAlphaDigit(char c) {
 }
 
 bool Scanner::atEnd() const {
-	return next >= source.size();
+	return current >= source.size();
 }
 
 char Scanner::consume() {
-	return source[next++];
+	return source[current++];
 }
 
 char Scanner::peek() const {
 	if(atEnd()) return '\0';
-	else return source[next];
+	else return source[current];
 }
 
 char Scanner::peekFar() const {
 	if(atEnd()) return '\0';
-	else return source[next + 1];
+	else return source[current + 1];
 }
 
-bool Scanner::nextIs(char expected) const {
+bool Scanner::currentIs(char expected) const {
 	if(atEnd()) return false;
-	else if(source[next] != expected) return false;
+	else if(source[current] != expected) return false;
 	else return true;
 }
 
 void Scanner::addToken(TokenType type, std::any literal) {
-	tokens.push_back(Token(line, literal, source.substr(start, next - start), type));
+	tokens.push_back(Token(line, literal, source.substr(start, current - start), type));
 }
 
 void Scanner::addToken(TokenType type) {
@@ -77,10 +78,12 @@ void Scanner::stringLiteral() {
 		consume();
 	}
 	
-	if(peek() == '"') consume();
-	else if(atEnd()) Lox::reportError(line, "Unfinished string literal at end of source code");
-
-	addToken(TokenType::STRING_LITERAL, source.substr(start + 1, next - start - 1));
+	if(peek() == '"') {
+		consume();
+		addToken(TokenType::STRING_LITERAL, source.substr(start + 1, current - start - 1));
+	} else if(atEnd()) {
+		Lox::reportError(line, "Unfinished string literal");
+	}
 }
 
 void Scanner::numericLiteral() {
@@ -91,18 +94,36 @@ void Scanner::numericLiteral() {
 		while(isDigit(peek()) && !atEnd()) consume();
 	} 
 
-	addToken(TokenType::NUMERIC_LITERAL, std::stod(source.substr(start, next - start)));
+	addToken(TokenType::NUMERIC_LITERAL, std::stod(source.substr(start, current - start)));
 }
 
 void Scanner::identifierKeyword() {
 	while(isAlphaDigit(peek()) && !atEnd()) consume();
 
-	std::string identifierKeywordLexeme = source.substr(start, next - start);
-	TokenType type = TokenType::EMPTY;
-	if(keywords.contains(identifierKeywordLexeme)) type = keywords.at(identifierKeywordLexeme);
+	std::string lexeme = source.substr(start, current - start);
+
+	addToken((keywords.contains(lexeme)) ? keywords.at(lexeme) : TokenType::IDENTIFIER);
+}
+
+void Scanner::blockComment() {
+	int leftCount = 1;
+	int rightCount = 0;
 	
-	if(type == TokenType::EMPTY) type = TokenType::IDENTIFIER;
-	addToken(type);
+	while(leftCount != rightCount) {
+		while(!(peek() == '*' && peekFar() == '/') && 
+			  !(peek() == '/' && peekFar() == '*') &&
+			  !atEnd()) consume();
+
+		if(peek() == '*' && peekFar() == '/') {
+			++rightCount;
+			consume(); consume();
+		} else if(peek() == '/' && peekFar() == '*') {
+			++leftCount;
+			consume(); consume();
+		} else if(atEnd()) {
+			Lox::reportError(line, "Unfinished block comment");
+		}
+	}
 }
 
 void Scanner::scanToken() {
@@ -118,13 +139,15 @@ void Scanner::scanToken() {
 		case '+': addToken(TokenType::PLUS); break;
 		case ';': addToken(TokenType::SEMICOLON); break;
 		case '*': addToken(TokenType::STAR); break;
-		case '!': (nextIs('=')) ? addToken(TokenType::NOT_EQUAL) : addToken(TokenType::NOT); break;
-		case '=': (nextIs('=')) ? addToken(TokenType::EQUAL_EQUAL) : addToken(TokenType::EQUAL); break;
-		case '>': (nextIs('=')) ? addToken(TokenType::GREATER_EQUAL) : addToken(TokenType::GREATER); break;
-		case '<': (nextIs('=')) ? addToken(TokenType::LESSER_EQUAL) : addToken(TokenType::LESSER); break;
+		case '!': (currentIs('=')) ? addToken(TokenType::NOT_EQUAL) : addToken(TokenType::NOT); break;
+		case '=': (currentIs('=')) ? addToken(TokenType::EQUAL_EQUAL) : addToken(TokenType::EQUAL); break;
+		case '>': (currentIs('=')) ? addToken(TokenType::GREATER_EQUAL) : addToken(TokenType::GREATER); break;
+		case '<': (currentIs('=')) ? addToken(TokenType::LESSER_EQUAL) : addToken(TokenType::LESSER); break;
 		case '/': 
-			if(nextIs('/')) {
+			if(currentIs('/')) {
 				while((peek() != '\n') && (!atEnd())) consume();
+			} else if(currentIs('*')) {
+				blockComment();
 			} else {
 				addToken(TokenType::SLASH);
 			}
@@ -149,7 +172,7 @@ void Scanner::scanToken() {
 
 std::vector<Token> Scanner::scanTokens() {
 	while(!atEnd()) {
-		start = next;
+		start = current;
 		scanToken();
 	}
 
