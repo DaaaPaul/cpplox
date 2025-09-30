@@ -122,6 +122,7 @@ void Scanner::blockComment() {
 			consume(); consume();
 		} else if(atEnd()) {
 			Lox::reportError(line, "Unfinished block comment");
+			break;
 		}
 	}
 }
