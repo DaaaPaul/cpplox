@@ -1,0 +1,7 @@
+var yeet = "Paul";
+
+fun identity(var v) {
+	return v;
+}
+
+print "Hello!";

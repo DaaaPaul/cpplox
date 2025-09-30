@@ -1,8 +1,0 @@
-print "Hey!!!";
-var age = 3;
-
-fun identity(var i) {
-	return i;
-}
-
-identity(age);

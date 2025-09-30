@@ -121,19 +121,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Lox.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Scanner.cpp" />
-    <ClCompile Include="src\Token.cpp" />
+    <ClCompile Include="Lox.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scanner.cpp" />
+    <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Lox.hpp" />
-    <ClInclude Include="src\Scanner.hpp" />
-    <ClInclude Include="src\Token.hpp" />
-    <ClInclude Include="src\TokenType.h" />
+    <ClInclude Include="Lox.hpp" />
+    <ClInclude Include="Scanner.hpp" />
+    <ClInclude Include="Token.hpp" />
+    <ClInclude Include="TokenType.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Text.txt" />
+    <Text Include="SampleSource.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

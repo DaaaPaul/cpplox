@@ -16,7 +16,7 @@ int main() {
 
 	if (inputArguements.size() > 1) {
 		std::cout << "Usage: <prompt/source code filepath>";
-	} else  if(inputArguements[0] == "prompt") {
+	} else if(inputArguements[0] == "prompt") {
 		Lox::runPrompt();
 	} else if(inputArguements[0] != "prompt") {
 		Lox::runFile(inputArguements[0]);

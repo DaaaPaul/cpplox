@@ -15,34 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Lox.cpp">
+    <ClCompile Include="Lox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scanner.cpp">
+    <ClCompile Include="Scanner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Token.cpp">
+    <ClCompile Include="Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\TokenType.h">
+    <ClInclude Include="TokenType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Lox.hpp">
+    <ClInclude Include="Lox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scanner.hpp">
+    <ClInclude Include="Scanner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Token.hpp">
+    <ClInclude Include="Token.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Text.txt" />
   </ItemGroup>
 </Project>
