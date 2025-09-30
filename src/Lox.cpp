@@ -27,13 +27,13 @@ void Lox::runFile(std::string path) {
 }
 
 void Lox::runPrompt() {
-	std::string line;
+	std::string input;
 	bool quit = false;
 
 	while(!quit) {
 		std::cout << '|';
-		if(std::getline(std::cin, line)) {
-			run(line);
+		if(std::getline(std::cin, input)) {
+			run(input);
 		} else {
 			quit = true;
 			std::cout << '\n';
