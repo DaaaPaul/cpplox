@@ -140,10 +140,10 @@ void Scanner::scanToken() {
 		case '+': addToken(TokenType::PLUS); break;
 		case ';': addToken(TokenType::SEMICOLON); break;
 		case '*': addToken(TokenType::STAR); break;
-		case '!': (currentIs('=')) ? addToken(TokenType::NOT_EQUAL) : addToken(TokenType::NOT); break;
-		case '=': (currentIs('=')) ? addToken(TokenType::EQUAL_EQUAL) : addToken(TokenType::EQUAL); break;
-		case '>': (currentIs('=')) ? addToken(TokenType::GREATER_EQUAL) : addToken(TokenType::GREATER); break;
-		case '<': (currentIs('=')) ? addToken(TokenType::LESSER_EQUAL) : addToken(TokenType::LESSER); break;
+		case '!': (currentIs('=')) ? (++current, addToken(TokenType::NOT_EQUAL)) : addToken(TokenType::NOT); break;
+		case '=': (currentIs('=')) ? (++current, addToken(TokenType::EQUAL_EQUAL)) : addToken(TokenType::EQUAL); break;
+		case '>': (currentIs('=')) ? (++current, addToken(TokenType::GREATER_EQUAL)) : addToken(TokenType::GREATER); break;
+		case '<': (currentIs('=')) ? (++current, addToken(TokenType::LESSER_EQUAL)) : addToken(TokenType::LESSER); break;
 		case '/': 
 			if(currentIs('/')) {
 				while((peek() != '\n') && (!atEnd())) consume();
