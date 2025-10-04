@@ -1,10 +1,14 @@
 #pragma once
 
-#include "Expr.h"
 #include "Token.hpp"
+#include <memory>
 
-struct Binary : Expr {
-	const Expr left;
+struct Expr;
+
+struct Binary {
+	const std::unique_ptr<Expr> left;
 	const Token op;
-	const Expr right;
+	const std::unique_ptr<Expr> right;
+
+	Binary(std::unique_ptr<Expr> left, Token op, std::unique_ptr<Expr> right) : left(std::move(left)), op(std::move(op)), right(std::move(right)) {}
 };

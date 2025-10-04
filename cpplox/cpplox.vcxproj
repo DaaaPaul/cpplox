@@ -127,6 +127,7 @@
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AstPrinter.h" />
     <ClInclude Include="Binary.h" />
     <ClInclude Include="Expr.h" />
     <ClInclude Include="Grouping.h" />
@@ -135,6 +136,8 @@
     <ClInclude Include="Scanner.hpp" />
     <ClInclude Include="Token.hpp" />
     <ClInclude Include="TokenType.h" />
+    <ClInclude Include="Unary.h" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />

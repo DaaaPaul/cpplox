@@ -2,9 +2,12 @@
 #include "GenerateAst.hpp"
 
 int main() {
-	GenerateAst::generateExpr(R"(..\cpplox)", "Expr", "", {}, {});
-	GenerateAst::generateExpr(R"(..\cpplox)", "Literal", "Expr", { "std::any~value" }, { "Expr.h", "<any>"});
-	GenerateAst::generateExpr(R"(..\cpplox)", "Grouping", "Expr", { "Expr~expr" }, { "Expr.h" });
-	GenerateAst::generateExpr(R"(..\cpplox)", "Unary", "Expr", { "Token~op", "Expr~right" }, { "Expr.h", "Token.hpp" });
-	GenerateAst::generateExpr(R"(..\cpplox)", "Binary", "Expr", { "Expr~left", "Token~op", "Expr~right" }, { "Expr.h", "Token.hpp" });
+	GenerateAst::generateExpr(R"(..\cpplox)", "Expr", { "Literal~literal", "Grouping~grouping", "Unary~unary", "Binary~binary" }, {});
+
+	GenerateAst::generateExprSubclass(R"(..\cpplox)", "Literal", "", { "std::any~value" }, { "<any>" });
+	GenerateAst::generateExprSubclass(R"(..\cpplox)", "Grouping", "", { "Expr~expression" }, { "Expr.h", "<memory>" });
+	GenerateAst::generateExprSubclass(R"(..\cpplox)", "Unary", "", { "Token~operator", "Expr~right" }, { "Expr.h", "Token.hpp", "<memory>" });
+	GenerateAst::generateExprSubclass(R"(..\cpplox)", "Binary", "", { "Expr~left", "Token~operator", "Expr~right" }, { "Expr.h", "Token.hpp", "<memory>" });
+
+	GenerateAst::generateExprVisitor(R"(..\cpplox)", "Visitor", { "Literal", "Grouping", "Unary", "Binary" });
 }

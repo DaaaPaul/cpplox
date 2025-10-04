@@ -1,7 +1,11 @@
 #pragma once
 
-#include "Expr.h"
+#include <memory>
 
-struct Grouping : Expr {
-	const Expr expr;
+struct Expr;
+
+struct Grouping {
+	const std::unique_ptr<Expr> expression;
+
+	Grouping(std::unique_ptr<Expr> expression) : expression(std::move(expression)) {}
 };

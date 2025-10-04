@@ -53,6 +53,15 @@
     <ClInclude Include="Literal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Unary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AstPrinter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />

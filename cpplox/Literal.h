@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Expr.h"
 #include <any>
 
-struct Literal : Expr {
+struct Literal {
 	const std::any value;
+
+	Literal(std::any value) : value(std::move(value)) {}
 };

@@ -1,9 +1,13 @@
 #pragma once
 
-#include "Expr.h"
 #include "Token.hpp"
+#include <memory>
 
-struct Unary : Expr {
+struct Expr;
+
+struct Unary {
 	const Token op;
-	const Expr right;
+	const std::unique_ptr<Expr> right;
+
+	Unary(Token op, std::unique_ptr<Expr> right) : op(std::move(op)), right(std::move(right)) {}
 };
