@@ -8,7 +8,7 @@ void GenerateAst::removeSpaces(std::string& s) {
     for (std::string::iterator i = s.begin(); i < s.end(); ++i) if (std::isspace(*i)) s.erase(i);
 }
 
-void GenerateAst::generate(std::string folder, std::string name, std::string parent, std::vector<std::string> fields, std::vector<std::string> includes) {
+void GenerateAst::generateExpr(std::string folder, std::string name, std::string parent, std::vector<std::string> fields, std::vector<std::string> includes) {
     std::ofstream fout(folder + R"(\)" + name + ".h");
 
     if (fout.is_open()) {
@@ -40,4 +40,8 @@ void GenerateAst::generate(std::string folder, std::string name, std::string par
     } else {
         std::cerr << "Failed to create file at " << (folder + R"(\)" + name + ".h");
     }
+}
+
+void GenerateAst::generateExprVisitor(std::string folder, std::string name, std::vector<std::string> exprTypes) {
+
 }
