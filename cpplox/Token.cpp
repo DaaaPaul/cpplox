@@ -8,3 +8,7 @@ Token::Token(int line, std::any literal, std::string lexeme, TokenType type):lin
 std::string Token::toString() const {
 	return tokenTypeString(type) + " " + lexeme;
 }
+
+std::string Token::toLexeme() const {
+	return lexeme;
+}

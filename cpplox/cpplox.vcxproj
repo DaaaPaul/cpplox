@@ -121,13 +121,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AstPrinterVisitor.cpp" />
     <ClCompile Include="Lox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AstPrinter.h" />
+    <ClInclude Include="AstPrinterVisitor.hpp" />
     <ClInclude Include="Binary.h" />
     <ClInclude Include="Expr.h" />
     <ClInclude Include="Grouping.h" />

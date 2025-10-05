@@ -13,8 +13,14 @@ struct Expr {
 	template<class T>
 	explicit Expr(T&& t) : variant(std::forward<T>(t)) {}
 
+	Expr(const Expr&) = delete;
+	Expr& operator=(const Expr&) = delete;
+
+	Expr(Expr&&) = default;
+	Expr& operator=(Expr&&) = default;
+
 	template<class R>
-	R accept(Visitor<R>& visitor) {
+	R accept(const Visitor<R>& visitor) const {
 		return std::visit(visitor, variant);
 	}
 };

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
+#include <memory>
 #include "Lox.hpp"
 #include "Token.hpp"
+#include "AstPrinterVisitor.hpp"
 
 int main() {
 	std::string mode;
@@ -25,6 +27,25 @@ int main() {
 		std::getline(std::cin, filepath);
 		Lox::runFile(filepath);
 	}
+
+	/* TEST CASE FOR AstPrinterVisitor
+
+	auto lit1 = std::make_unique<Expr>(Literal(0.0));
+	auto lit2 = std::make_unique<Expr>(Literal(3.0));
+
+	Token minus_token(1, std::any(), "-", TokenType::MINUS);
+	Unary unary_expr(minus_token, std::move(lit1));
+	auto unary_ptr = std::make_unique<Expr>(std::move(unary_expr));
+
+	Token star_token(1, std::any(), "*", TokenType::STAR);
+	Binary binary_expr(std::move(unary_ptr), star_token, std::move(lit2));
+
+	Expr root_expr(std::move(binary_expr));
+
+	std::cout << AstPrinterVisitor().print(root_expr) << std::endl;
+
+	*/
+
 
 	return 0;
 }

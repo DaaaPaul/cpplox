@@ -5,7 +5,7 @@
 struct Expr;
 
 struct Grouping {
-	const std::unique_ptr<Expr> expression;
+	std::unique_ptr<Expr> expression;
 
 	Grouping(std::unique_ptr<Expr> expression) : expression(std::move(expression)) {}
 };

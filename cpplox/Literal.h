@@ -3,7 +3,7 @@
 #include <any>
 
 struct Literal {
-	const std::any value;
+	std::any value;
 
 	Literal(std::any value) : value(std::move(value)) {}
 };
