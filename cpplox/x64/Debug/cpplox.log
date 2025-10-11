@@ -1,2 +1,5 @@
-﻿  main.cpp
+﻿  AstPrinterVisitor.cpp
+  main.cpp
+  Generating Code...
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\AstPrinterVisitor.cpp(25,1): warning C4715: 'AstPrinterVisitor::operator()': not all control paths return a value
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe

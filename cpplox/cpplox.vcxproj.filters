@@ -16,12 +16,6 @@
     <Filter Include="Header Files\Ast">
       <UniqueIdentifier>{b736c1bc-e471-4b05-bf14-dc45697b2323}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Ast\AstVisitors">
-      <UniqueIdentifier>{0de447ec-9a5d-4e4f-8b8f-0f890ef843f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Ast\AstClasses">
-      <UniqueIdentifier>{30246f29-a91b-45ba-a834-808a5529cd0d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Lox">
       <UniqueIdentifier>{550740fe-895e-48eb-9c57-ed8b141486f5}</UniqueIdentifier>
     </Filter>
@@ -30,9 +24,6 @@
     </Filter>
     <Filter Include="Source Files\Ast">
       <UniqueIdentifier>{fe958580-370d-4088-821f-f3734033847c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Ast\AstVisitors">
-      <UniqueIdentifier>{04a486b7-f53e-4fc4-8555-25caf0405348}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Lox">
       <UniqueIdentifier>{81ac77fe-bb15-4d3d-b6c5-bc45859a7c71}</UniqueIdentifier>
@@ -45,9 +36,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AstPrinterVisitor.cpp">
-      <Filter>Source Files\Ast\AstVisitors</Filter>
-    </ClCompile>
     <ClCompile Include="Lox.cpp">
       <Filter>Source Files\Lox</Filter>
     </ClCompile>
@@ -57,29 +45,11 @@
     <ClCompile Include="Token.cpp">
       <Filter>Source Files\Scanner</Filter>
     </ClCompile>
+    <ClCompile Include="AstPrinterVisitor.cpp">
+      <Filter>Source Files\Ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Binary.h">
-      <Filter>Header Files\Ast\AstClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Expr.h">
-      <Filter>Header Files\Ast\AstClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Grouping.h">
-      <Filter>Header Files\Ast\AstClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Literal.h">
-      <Filter>Header Files\Ast\AstClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Unary.h">
-      <Filter>Header Files\Ast\AstClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Visitor.h">
-      <Filter>Header Files\Ast\AstVisitors</Filter>
-    </ClInclude>
-    <ClInclude Include="AstPrinterVisitor.hpp">
-      <Filter>Header Files\Ast\AstVisitors</Filter>
-    </ClInclude>
     <ClInclude Include="Lox.hpp">
       <Filter>Header Files\Lox</Filter>
     </ClInclude>
@@ -91,6 +61,15 @@
     </ClInclude>
     <ClInclude Include="TokenType.h">
       <Filter>Header Files\Scanner</Filter>
+    </ClInclude>
+    <ClInclude Include="Expr.h">
+      <Filter>Header Files\Ast</Filter>
+    </ClInclude>
+    <ClInclude Include="AstPrinterVisitor.hpp">
+      <Filter>Header Files\Ast</Filter>
+    </ClInclude>
+    <ClInclude Include="Visitor.h">
+      <Filter>Header Files\Ast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
