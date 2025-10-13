@@ -1,5 +1,2 @@
-﻿  Parser.cpp
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(8,1): error C4716: 'Parser::expression': must return a value
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(20,1): error C4716: 'Parser::check': must return a value
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(12,1): error C4716: 'Parser::equality': must return a value
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(16,1): error C4716: 'Parser::match': must return a value
+﻿  main.cpp
+  cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe
