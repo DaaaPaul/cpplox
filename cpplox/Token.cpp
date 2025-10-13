@@ -12,3 +12,7 @@ std::string Token::toString() const {
 std::string Token::toLexeme() const {
 	return lexeme;
 }
+
+inline TokenType Token::getType() const {
+	return type;
+}

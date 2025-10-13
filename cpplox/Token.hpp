@@ -16,6 +16,7 @@ class Token {
 	Token(int line, std::any literal, std::string lexeme, TokenType type);
 	std::string toString() const;
 	std::string toLexeme() const;
+	inline TokenType getType() const;
 };
 
 #endif

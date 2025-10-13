@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <initializer_list>
 #include "Token.hpp"
 #include "Expr.h"
 
@@ -9,12 +10,13 @@ class Parser {
 	std::vector<Token> tokens;
 	int current;
 
-	Expr expression() const;
-	Expr equality() const;
+	Expr expression();
+	Expr equality();
+	Expr comparison();
 
-	bool match() const;
-	bool check() const;
-	inline Token advance() const;
+	bool match(std::initializer_list<TokenType> types);
+	bool check(TokenType type) const;
+	inline Token advance();
 	inline bool atEnd() const;
 	inline Token peek() const;
 	inline Token previous() const;

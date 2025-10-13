@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 
 #include <variant>
 #include <memory>
@@ -42,6 +42,7 @@ struct Expr {
 	std::variant<Grouping, Binary, Unary, Literal> variant;
 
 	Expr(Expr const& e) : variant(e.variant) {}
+	Expr(Expr&& e) noexcept : variant(std::move(e.variant)) {}
 	Expr(Grouping const& g) : variant(g) {}
 	Expr(Binary const& b) : variant(b) {}
 	Expr(Unary const& u) : variant(u) {}

@@ -28,16 +28,15 @@ int main() {
 		Lox::runFile(filepath);
 	}
 
-	// TEST CASE FOR AST CLASSES
-	//const Expr rightHandNumber(Literal(45.67));
-	//const Expr rightHandNumberGrouping(Grouping(std::make_unique<Expr>(rightHandNumber)));
+	const Expr rightHandNumber(Literal(45.67));
+	const Expr rightHandNumberGrouping(Grouping(std::make_unique<Expr>(rightHandNumber)));
 
-	//const Expr leftHandNumber(Literal(123));
-	//const Expr unaryLeftHandNumber(Unary(Token(-1, {}, "-", TokenType::MINUS), std::make_unique<Expr>(leftHandNumber)));
+	const Expr leftHandNumber(Literal(123));
+	const Expr unaryLeftHandNumber(Unary(Token(-1, {}, "-", TokenType::MINUS), std::make_unique<Expr>(leftHandNumber)));
 
-	//const Expr binary(Binary(std::make_unique<Expr>(unaryLeftHandNumber), Token(-1, {}, "*", TokenType::STAR), std::make_unique<Expr>(rightHandNumberGrouping)));
+	const Expr binary(Binary(std::make_unique<Expr>(unaryLeftHandNumber), Token(-1, {}, "*", TokenType::STAR), std::make_unique<Expr>(rightHandNumberGrouping)));
 
-	//std::cout << AstPrinterVisitor().print(binary);
+	std::cout << AstPrinterVisitor().print(binary);
 
 	return 0;
 }
