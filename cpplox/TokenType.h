@@ -19,7 +19,7 @@ enum class TokenType {
 	FUN, RETURN, CLASS, SUPER, THIS, DIH,
 
 	// util
-	EMPTY,
+	EMPTY, END_OF_FILE
 };
 
 inline std::string tokenTypeString(TokenType t) {
@@ -102,8 +102,8 @@ inline std::string tokenTypeString(TokenType t) {
             return "THIS";
         case TokenType::EMPTY:
             return "EMPTY";
-		case TokenType::DIH:
-			return "DIH";
+        case TokenType::END_OF_FILE:
+            return "END_OF_FILE";
 		default:
 			return "Token type not found";
 	}

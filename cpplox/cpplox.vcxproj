@@ -124,6 +124,7 @@
     <ClCompile Include="AstPrinterVisitor.cpp" />
     <ClCompile Include="Lox.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <ClInclude Include="AstPrinterVisitor.hpp" />
     <ClInclude Include="Expr.h" />
     <ClInclude Include="Lox.hpp" />
+    <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
     <ClInclude Include="Token.hpp" />
     <ClInclude Include="TokenType.h" />

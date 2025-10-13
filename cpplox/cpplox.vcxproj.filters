@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Scanner">
       <UniqueIdentifier>{8b2b337d-e864-4b2b-88b0-44006f8144f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Parser">
+      <UniqueIdentifier>{bd85aa31-fe2f-46e7-bf60-df3a0bb585c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Parser">
+      <UniqueIdentifier>{ecab14a3-84f7-4366-8ea5-f7cb8532afa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="AstPrinterVisitor.cpp">
       <Filter>Source Files\Ast</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Visitor.h">
       <Filter>Header Files\Ast</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.hpp">
+      <Filter>Header Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

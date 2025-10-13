@@ -23,7 +23,6 @@ const std::unordered_map<std::string, TokenType> Scanner::keywords = {
 	{"class", TokenType::CLASS},
 	{"super", TokenType::SUPER},
 	{"this", TokenType::THIS},
-	{"dih", TokenType::DIH}
 };
 
 bool Scanner::isDigit(char c) {
@@ -176,6 +175,7 @@ std::vector<Token> Scanner::scanTokens() {
 		start = current;
 		scanToken();
 	}
+	addToken(TokenType::END_OF_FILE);
 
 	return tokens;
 }
