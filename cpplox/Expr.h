@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Token.hpp"
 #include <variant>
 #include <memory>
-#include "Visitor.h"
 #include <iostream>
+#include "Visitor.h"
+#include "Token.hpp"
 
 struct Expr;
 

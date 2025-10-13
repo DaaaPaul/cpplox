@@ -28,6 +28,7 @@ int main() {
 		Lox::runFile(filepath);
 	}
 
+	// TEST CASE FOR AST CLASSES
 	//const Expr rightHandNumber(Literal(45.67));
 	//const Expr rightHandNumberGrouping(Grouping(std::make_unique<Expr>(rightHandNumber)));
 

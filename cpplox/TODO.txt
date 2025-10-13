@@ -1,3 +1,0 @@
-make Expr.h classes nested (inner) classes?
-
-clean up visitors and ast

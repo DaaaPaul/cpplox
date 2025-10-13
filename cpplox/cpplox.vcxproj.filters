@@ -74,6 +74,5 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />
-    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>
