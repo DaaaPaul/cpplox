@@ -9,26 +9,26 @@
 struct Expr;
 
 struct Grouping {
-	Expr const& expression;
+	std::unique_ptr<Expr> expression;
 };
 
 struct Binary {
-	Expr const& left;
+	std::unique_ptr<Expr> left;
 	Token op;
-	Expr const& right;
+	std::unique_ptr<Expr> right;
 };
 
 struct Unary {
 	Token op;
-	Expr const& right;
+	std::unique_ptr<Expr> right;
 };
 
 struct Literal {
-	const std::any value;
+	std::any value;
 };
 
 struct Expr {
-	const std::variant<Grouping, Binary, Unary, Literal> variant;
+	std::variant<Grouping, Binary, Unary, Literal> variant;
 
 	template<class R>
 	R accept(const Visitor<R>& visitor) const {
