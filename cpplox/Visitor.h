@@ -1,6 +1,6 @@
 #pragma once
 
-struct Expr; struct Literal; struct Grouping; struct Unary; struct Binary;
+struct Literal; struct Grouping; struct Unary; struct Binary;
 
 template<class R> struct Visitor {
 	virtual R operator()(const Literal& e) const = 0;

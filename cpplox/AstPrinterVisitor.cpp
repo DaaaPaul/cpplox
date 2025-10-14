@@ -20,20 +20,22 @@ std::string AstPrinterVisitor::operator()(const Literal& literal) const {
 		}
 		else if (literal.value.type() == typeid(std::string)) {
 			return std::any_cast<std::string>(literal.value);
+		} else {
+			return std::string("Invalid literal type");
 		}
 	}
 }
 
 std::string AstPrinterVisitor::operator()(const Grouping& grouping) const {
-	return parenthesize("grouping", *grouping.expression);
+	return parenthesize("grouping", grouping.expression);
 }
 
 std::string AstPrinterVisitor::operator()(const Unary& unary) const {
-	return parenthesize(unary.op.toLexeme(), *unary.right);
+	return parenthesize(unary.op.toLexeme(), unary.right);
 }
 
 std::string AstPrinterVisitor::operator()(const Binary& binary) const {
-	return parenthesize(binary.op.toLexeme(), *binary.left, *binary.right);
+	return parenthesize(binary.op.toLexeme(), binary.left, binary.right);
 }
 
 template<class... Exprs>
