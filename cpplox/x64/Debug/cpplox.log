@@ -1,5 +1,4 @@
-﻿  Parser.cpp
-  main.cpp
+﻿  main.cpp
+  Parser.cpp
   Generating Code...
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(22,1): error C4716: 'Parser::comparison': must return a value
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(18,1): error C4716: 'Parser::equality': must return a value
+  cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe

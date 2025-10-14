@@ -2,6 +2,7 @@
 #include <any>
 #include <iostream>
 #include <memory>
+#include <initializer_list>
 
 std::string AstPrinterVisitor::print(Expr const& expr) const {
 	return expr.accept(*this);
@@ -27,21 +28,24 @@ std::string AstPrinterVisitor::operator()(const Literal& literal) const {
 }
 
 std::string AstPrinterVisitor::operator()(const Grouping& grouping) const {
-	return parenthesize("grouping", grouping.expression);
+	return parenthesize("grouping", { grouping.expression });
 }
 
 std::string AstPrinterVisitor::operator()(const Unary& unary) const {
-	return parenthesize(unary.op.toLexeme(), unary.right);
+	return parenthesize(unary.op.toLexeme(), { unary.right });
 }
 
 std::string AstPrinterVisitor::operator()(const Binary& binary) const {
-	return parenthesize(binary.op.toLexeme(), binary.left, binary.right);
+	return parenthesize(binary.op.toLexeme(), { binary.left, binary.right });
 }
 
-template<class... Exprs>
-std::string AstPrinterVisitor::parenthesize(const std::string identity, const Exprs&... exprs) const {
+std::string AstPrinterVisitor::parenthesize(std::string const& identity, std::initializer_list<Expr> const& exprs) const {
 	std::string result = "(" + identity;
-	(result.append(" " + std::string(exprs.accept(*this))), ...);
+	
+	for(Expr const& e : exprs) {
+		result.append(" " + e.accept(*this));
+	}
+	
 	result.append(")");
 	return result;
 }

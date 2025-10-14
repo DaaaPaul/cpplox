@@ -14,6 +14,5 @@ public:
 	std::string operator()(const Binary& binary) const override;
 
 private:
-	template<class... Exprs>
-	std::string parenthesize(const std::string identity, const Exprs&... exprs) const;
+	std::string parenthesize(std::string const& identity, std::initializer_list<Expr> const& exprs) const;
 };
