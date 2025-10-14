@@ -23,7 +23,9 @@ void Lox::runFile(std::string path) {
 	}
 
 	run(contents);
-	if(hadError) std::exit(1);
+	if (hadError) {
+		std::exit(1);
+	}
 }
 
 void Lox::runPrompt() {

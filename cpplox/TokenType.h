@@ -11,12 +11,12 @@ enum class TokenType {
 	// multi character
 	NOT, NOT_EQUAL, EQUAL, EQUAL_EQUAL, GREATER, GREATER_EQUAL, LESSER, LESSER_EQUAL,
 
-	// literals and identifier
+	// complicated literals and identifier
 	IDENTIFIER, STRING_LITERAL, NUMERIC_LITERAL,
 
-	// keywords
+	// keywords and more literals
 	NIL, AND, OR, IF, ELSE, FOR, WHILE, TRUE, FALSE, PRINT, VAR, 
-	FUN, RETURN, CLASS, SUPER, THIS, DIH,
+	FUN, RETURN, CLASS, SUPER, THIS,
 
 	// util
 	EMPTY, END_OF_FILE

@@ -5,3 +5,4 @@ fun identity(var v) {
 }
 
 print "Hello!";
+print 123;

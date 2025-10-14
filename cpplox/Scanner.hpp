@@ -27,7 +27,7 @@ class Scanner {
 	char peek() const;
 	char peekFar() const;
 	bool currentIs(char expected) const;
-	void addToken(TokenType type, std::any literal);
+	void addToken(TokenType type, std::variant<bool, double, std::string, std::monostate> literal);
 	void addToken(TokenType type);
 	void stringLiteral();
 	void numericLiteral();

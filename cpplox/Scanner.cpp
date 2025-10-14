@@ -2,6 +2,7 @@
 #include "TokenType.h"
 #include "Lox.hpp"
 #include <iostream>
+#include <variant>
 
 Scanner::Scanner():source{}, tokens{}, start{0}, current{0}, line{1} {}
 Scanner::Scanner(std::string source):source{source}, tokens{}, start{0}, current{0}, line{1} {}
@@ -63,12 +64,12 @@ bool Scanner::currentIs(char expected) const {
 	else return true;
 }
 
-void Scanner::addToken(TokenType type, std::any literal) {
+void Scanner::addToken(TokenType type, std::variant<bool, double, std::string, std::monostate> literal) {
 	tokens.push_back(Token(line, literal, source.substr(start, current - start), type));
 }
 
 void Scanner::addToken(TokenType type) {
-	addToken(type, nullptr);
+	addToken(type, std::monostate{});
 }
 
 void Scanner::stringLiteral() {

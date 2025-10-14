@@ -1,5 +1,4 @@
 #include "AstPrinterVisitor.hpp"
-#include <any>
 #include <iostream>
 #include <memory>
 #include <initializer_list>
@@ -9,21 +8,14 @@ std::string AstPrinterVisitor::print(Expr const& expr) const {
 }
 
 std::string AstPrinterVisitor::operator()(const Literal& literal) const {
-	if (!literal.value.has_value()) {
+	if (std::holds_alternative<std::monostate>(literal.value)) {
 		return "nil";
-	}
-	else {
-		if (literal.value.type() == typeid(double)) {
-			return std::to_string(std::any_cast<double>(literal.value));
-		}
-		else if (literal.value.type() == typeid(int)) {
-			return std::to_string(static_cast<double>(std::any_cast<int>(literal.value)));
-		}
-		else if (literal.value.type() == typeid(std::string)) {
-			return std::any_cast<std::string>(literal.value);
-		} else {
-			return std::string("Invalid literal type");
-		}
+	} else if(std::holds_alternative<double>(literal.value)) {
+		return std::to_string(std::get<double>(literal.value));
+	} else if(std::holds_alternative<std::string>(literal.value)) {
+		return std::get<std::string>(literal.value);
+	} else {
+		return "Literal isn't holding valid type";
 	}
 }
 

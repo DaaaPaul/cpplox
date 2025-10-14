@@ -24,7 +24,7 @@ struct Unary {
 };
 
 struct Literal {
-	const std::any value;
+	const std::variant<bool, double, std::string, std::monostate> value;
 };
 
 struct Expr {
