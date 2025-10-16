@@ -57,6 +57,9 @@
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="Expr.cpp">
+      <Filter>Source Files\Ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lox.hpp">
@@ -71,13 +74,13 @@
     <ClInclude Include="TokenType.h">
       <Filter>Header Files\Scanner</Filter>
     </ClInclude>
-    <ClInclude Include="Expr.h">
+    <ClInclude Include="Expr.hpp">
       <Filter>Header Files\Ast</Filter>
     </ClInclude>
     <ClInclude Include="AstPrinterVisitor.hpp">
       <Filter>Header Files\Ast</Filter>
     </ClInclude>
-    <ClInclude Include="Visitor.h">
+    <ClInclude Include="Visitor.hpp">
       <Filter>Header Files\Ast</Filter>
     </ClInclude>
     <ClInclude Include="Parser.hpp">

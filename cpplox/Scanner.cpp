@@ -171,7 +171,7 @@ void Scanner::scanToken() {
 	}
 }
 
-std::vector<Token> Scanner::scanTokens() {
+std::vector<Token> Scanner::scanTokens() noexcept {
 	while(!atEnd()) {
 		start = current;
 		scanToken();

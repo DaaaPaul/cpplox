@@ -34,7 +34,7 @@ class Scanner {
 	void identifierKeyword();
 	void blockComment();
 	void scanToken();
-	std::vector<Token> scanTokens();
+	std::vector<Token> scanTokens() noexcept;
 };
 
 #endif

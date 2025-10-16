@@ -5,7 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include "Token.hpp"
-#include "Expr.h"
+#include "Expr.hpp"
 #include "ParseError.h"
 
 class Parser {
@@ -13,20 +13,21 @@ class Parser {
 	std::vector<Token> tokens;
 	int current;
 
-	Expr expression();
-	Expr equality();
-	Expr resolveEqualities(const Expr left);
-	Expr comparison();
-	Expr resolveComparisons(const Expr left);
-	Expr additive();
-	Expr resolveAdditives(const Expr left);
-	Expr multiplicitive();
-	Expr resolveMultiplicitives(const Expr left);
-	Expr unary();
-	Expr primary();
+	std::unique_ptr<Expr> expression();
+	std::unique_ptr<Expr> equality();
+	std::unique_ptr<Expr> resolveEqualities(std::unique_ptr<Expr> left);
+	std::unique_ptr<Expr> comparison();
+	std::unique_ptr<Expr> resolveComparisons(std::unique_ptr<Expr> left);
+	std::unique_ptr<Expr> additive();
+	std::unique_ptr<Expr> resolveAdditives(std::unique_ptr<Expr> left);
+	std::unique_ptr<Expr> multiplicitive();
+	std::unique_ptr<Expr> resolveMultiplicitives(std::unique_ptr<Expr> left);
+	std::unique_ptr<Expr> unary();
+	std::unique_ptr<Expr> primary();
 
 	bool match(std::initializer_list<TokenType> types);
 	bool check(TokenType type) const;
+	void synchronize();
 	inline Token advance();
 	inline Token consume(TokenType type, std::string const& potentialErrorMessage);
 	inline ParseError error(Token const& token, std::string const& message);
@@ -36,4 +37,5 @@ class Parser {
 
 	public:
 	Parser(std::vector<Token>&& tokensIn);
+	std::unique_ptr<Expr> parse() noexcept;
 };

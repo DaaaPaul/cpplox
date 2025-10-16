@@ -5,6 +5,8 @@
 #include "Lox.hpp"
 #include "Token.hpp"
 #include "Scanner.hpp"
+#include "Parser.hpp"
+#include "AstPrinterVisitor.hpp"
 
 bool Lox::hadError = false;
 
@@ -46,7 +48,7 @@ void Lox::runPrompt() {
 void Lox::run(std::string source) {
 	Scanner scanner(source);
 	std::vector<Token> tokens = scanner.scanTokens();
-	for(Token t: tokens) std::cout << t.toString() << '\n';	
+	for (Token t : tokens) std::cout << t.toString() << '\n';
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {

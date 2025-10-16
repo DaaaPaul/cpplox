@@ -28,10 +28,10 @@ int main() {
 		Lox::runFile(filepath);
 	}
 
-	//Expr rightHandNumberGrouping{ Grouping{Expr(Literal{45.67})} };
-	//Expr unaryLeftHandNumber{ Unary{Token(-1, {}, "-", TokenType::MINUS), Expr(Literal{123.0})} };
-	//Expr binary{ Binary{Expr(unaryLeftHandNumber), Token(-1, {}, "*", TokenType::STAR), Expr(rightHandNumberGrouping)} };
-	//std::cout << AstPrinterVisitor().print(binary);
+	//Literal rhNum; rhNum.value = 45.67;
+	//Grouping rhParentheses; rhParentheses.expr = std::make_unique<Literal>(rhNum);
+	//std::unique_ptr<Expr> rhGrouping = std::make_unique<Grouping>(std::move(rhParentheses));
+	//AstPrinterVisitor().print(*rhGrouping);
 
 	return 0;
 }

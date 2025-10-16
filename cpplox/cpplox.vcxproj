@@ -122,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AstPrinterVisitor.cpp" />
+    <ClCompile Include="Expr.cpp" />
     <ClCompile Include="Lox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -130,14 +131,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AstPrinterVisitor.hpp" />
-    <ClInclude Include="Expr.h" />
+    <ClInclude Include="Expr.hpp" />
     <ClInclude Include="Lox.hpp" />
     <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
     <ClInclude Include="Token.hpp" />
     <ClInclude Include="TokenType.h" />
-    <ClInclude Include="Visitor.h" />
+    <ClInclude Include="Visitor.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />
