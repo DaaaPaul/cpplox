@@ -16,6 +16,11 @@ class Literal : public Expr {
 public:
 	std::variant<bool, double, std::string, std::monostate> value;
 
+	Literal(bool const& b) : value(b) {}
+	Literal(double const& d) : value(d) {}
+	Literal(std::string const& s) : value(s) {}
+	Literal(std::monostate const& m) : value(m) {}
+	Literal(std::variant<bool, double, std::string, std::monostate> const& v) : value(v) {}
 	void accept(Visitor const& visitor) const override;
 };
 

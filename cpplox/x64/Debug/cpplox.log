@@ -1,4 +1,5 @@
 ﻿  Lox.cpp
+  Parser.cpp
   Scanner.cpp
   main.cpp
   Generating Code...

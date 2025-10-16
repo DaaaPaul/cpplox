@@ -38,6 +38,7 @@ void Lox::runPrompt() {
 		std::cout << '>';
 		if(std::getline(std::cin, input)) {
 			run(input);
+			std::cout << '\n';
 		} else {
 			quit = true;
 		}
@@ -48,7 +49,12 @@ void Lox::runPrompt() {
 void Lox::run(std::string source) {
 	Scanner scanner(source);
 	std::vector<Token> tokens = scanner.scanTokens();
-	for (Token t : tokens) std::cout << t.toString() << '\n';
+	Parser parser(std::move(tokens));
+	std::unique_ptr<Expr> expression = parser.parse();
+
+	if (hadError || !expression) return;
+
+	AstPrinterVisitor().print(*expression);
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
