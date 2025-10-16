@@ -49,7 +49,16 @@ void Lox::run(std::string source) {
 	for(Token t: tokens) std::cout << t.toString() << '\n';	
 }
 
-void Lox::reportError(int line, std::string message) {
-	std::cerr << "(ERROR at line " << line << "): " << message << '\n';
+void Lox::reportError(Token const& token, std::string const& message) {
+	if(token.getType() == TokenType::END_OF_FILE) {
+		std::cerr << "-----------------------------------------------------------------------\n";
+		std::cerr << "ERROR at end of file: " << message << " at \"" << token.toLexeme() << "\"" << '\n';
+		std::cerr << "-----------------------------------------------------------------------\n";
+	} else {
+		std::cerr << "-----------------------------------------------------------------------\n";
+		std::cerr << "ERROR at line " << token.getLine() << ": " << message << " at \"" << token.toLexeme() << "\"" << '\n';
+		std::cerr << "-----------------------------------------------------------------------\n";
+	}
+
 	hadError = true;
 }

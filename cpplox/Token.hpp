@@ -18,6 +18,7 @@ class Token {
 	std::string toLexeme() const;
 	TokenType getType() const { return type; }
 	std::variant<bool, double, std::string, std::monostate> getLiteral() const { return literal; }
+	int getLine() const { return line; }
 };
 
 #endif

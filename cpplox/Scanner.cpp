@@ -82,7 +82,7 @@ void Scanner::stringLiteral() {
 		consume();
 		addToken(TokenType::STRING_LITERAL, source.substr(start + 1, current - start - 1));
 	} else if(atEnd()) {
-		Lox::reportError(line, "Unfinished string literal");
+		Lox::reportError(Token(line, std::monostate{}, source.substr(start + 1, current - start - 1), TokenType::END_OF_FILE), "Unfinished string literal");
 	}
 }
 
@@ -121,7 +121,7 @@ void Scanner::blockComment() {
 			++leftCount;
 			consume(); consume();
 		} else if(atEnd()) {
-			Lox::reportError(line, "Unfinished block comment");
+			Lox::reportError(Token(line, std::monostate{}, source.substr(start + 1, current - start - 1), TokenType::END_OF_FILE), "Unfinished block comment");
 			break;
 		}
 	}
@@ -167,7 +167,7 @@ void Scanner::scanToken() {
 				identifierKeyword();
 				break;
 			}
-			Lox::reportError(line, "Undefined character"); break;
+			Lox::reportError(Token(line, std::monostate{}, std::to_string(source[current - 1]), TokenType::UNKNOWN), "Undefined character"); break;
 	}
 }
 

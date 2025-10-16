@@ -83,6 +83,9 @@
     <ClInclude Include="Parser.hpp">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
+    <ClInclude Include="ParseError.h">
+      <Filter>Header Files\Parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />

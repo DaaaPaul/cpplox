@@ -1,4 +1,6 @@
 #include "Parser.hpp"
+#include "Lox.hpp"
+#include "ParseError.h"
 #include <utility>
 #include <initializer_list>
 #include <vector>
@@ -82,6 +84,12 @@ Expr Parser::primary() {
 	if (match({ TokenType::NIL })) return Expr(Literal(std::monostate{}));
 
 	if (match({ TokenType::STRING_LITERAL, TokenType::NUMERIC_LITERAL })) return Expr(Literal(previous().getLiteral()));
+
+	if (match({ TokenType::LEFT_PARENTHESE })) {
+		Expr expr = expression();
+		consume(TokenType::RIGHT_PARENTHESE, "Expected closing ')' after expression");
+		return Expr(Grouping(expr));
+	}
 }
 
 bool Parser::match(std::initializer_list<TokenType> types) {
@@ -103,6 +111,16 @@ bool Parser::check(TokenType type) const {
 inline Token Parser::advance() {
 	if (!atEnd()) ++current;
 	return previous();
+}
+
+inline Token Parser::consume(TokenType type, std::string const& potentialErrorMessage) {
+	if (check(type)) return advance();
+	else throw error(peek(), potentialErrorMessage);
+}
+
+inline ParseError Parser::error(Token const& token, std::string const& message) {
+	Lox::reportError(token, message);
+	return ParseError(message);
 }
 
 inline bool Parser::atEnd() const {

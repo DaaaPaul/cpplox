@@ -19,7 +19,7 @@ enum class TokenType {
 	FUN, RETURN, CLASS, SUPER, THIS,
 
 	// util
-	EMPTY, END_OF_FILE
+	EMPTY, END_OF_FILE, UNKNOWN
 };
 
 inline std::string tokenTypeString(TokenType t) {

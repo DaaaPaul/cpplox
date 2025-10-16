@@ -132,6 +132,7 @@
     <ClInclude Include="AstPrinterVisitor.hpp" />
     <ClInclude Include="Expr.h" />
     <ClInclude Include="Lox.hpp" />
+    <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
     <ClInclude Include="Token.hpp" />
