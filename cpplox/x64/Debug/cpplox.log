@@ -1,6 +1,6 @@
 ﻿  AstPrinterVisitor.cpp
   Lox.cpp
-  Scanner.cpp
   main.cpp
+  Scanner.cpp
   Generating Code...
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe

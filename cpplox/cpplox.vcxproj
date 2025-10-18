@@ -123,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="AstPrinterVisitor.cpp" />
     <ClCompile Include="Expr.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="Lox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parser.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="AstPrinterVisitor.hpp" />
     <ClInclude Include="Expr.hpp" />
+    <ClInclude Include="Interpreter.hpp" />
     <ClInclude Include="Lox.hpp" />
     <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />

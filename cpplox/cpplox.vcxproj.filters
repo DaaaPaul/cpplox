@@ -60,6 +60,9 @@
     <ClCompile Include="Expr.cpp">
       <Filter>Source Files\Ast</Filter>
     </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <Filter>Source Files\Ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lox.hpp">
@@ -88,6 +91,9 @@
     </ClInclude>
     <ClInclude Include="ParseError.h">
       <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter.hpp">
+      <Filter>Header Files\Ast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
