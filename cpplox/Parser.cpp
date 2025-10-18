@@ -17,7 +17,21 @@ std::unique_ptr<Expr> Parser::parse() noexcept {
 }
 
 std::unique_ptr<Expr> Parser::expression() {
-    return equality();
+    return comma();
+}
+
+std::unique_ptr<Expr> Parser::comma() {
+    std::unique_ptr<Expr> equalityExpr = equality();
+    return resolveCommas(std::move(equalityExpr));
+}
+
+std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr> left) {
+    if (!match({ TokenType::COMMA })) return left;
+
+    Token op = previous();
+    std::unique_ptr<Expr> right = equality();
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    return resolveCommas(std::move(binary));
 }
 
 std::unique_ptr<Expr> Parser::equality() {
@@ -35,8 +49,8 @@ std::unique_ptr<Expr> Parser::resolveEqualities(std::unique_ptr<Expr> left) {
 }
 
 std::unique_ptr<Expr> Parser::comparison() {
-    std::unique_ptr<Expr> left = additive();
-    return resolveComparisons(std::move(left));
+    std::unique_ptr<Expr> additiveExpr = additive();
+    return resolveComparisons(std::move(additiveExpr));
 }
 
 std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr> left) {
@@ -49,8 +63,8 @@ std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr> left) {
 }
 
 std::unique_ptr<Expr> Parser::additive() {
-    std::unique_ptr<Expr> left = multiplicitive();
-    return resolveAdditives(std::move(left));
+    std::unique_ptr<Expr> multiplicitiveExpr = multiplicitive();
+    return resolveAdditives(std::move(multiplicitiveExpr));
 }
 
 std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr> left) {
@@ -63,8 +77,8 @@ std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr> left) {
 }
 
 std::unique_ptr<Expr> Parser::multiplicitive() {
-    std::unique_ptr<Expr> left = unary();
-    return resolveMultiplicitives(std::move(left));
+    std::unique_ptr<Expr> unaryExpr = unary();
+    return resolveMultiplicitives(std::move(unaryExpr));
 }
 
 std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr> left) {
@@ -92,8 +106,7 @@ std::unique_ptr<Expr> Parser::primary() {
     else if (match({ TokenType::TRUE })) return std::make_unique<Literal>(true);
     else if (match({ TokenType::NIL })) return std::make_unique<Literal>(std::monostate{});
     else if (match({ TokenType::STRING_LITERAL, TokenType::NUMERIC_LITERAL })) return std::make_unique<Literal>(previous().getLiteral());
-
-    if (match({ TokenType::LEFT_PARENTHESE })) {
+    else if (match({ TokenType::LEFT_PARENTHESE })) {
         std::unique_ptr<Expr> expr = expression();
         consume(TokenType::RIGHT_PARENTHESE, "Expected ')' after expression.");
         std::unique_ptr<Expr> grouping = std::make_unique<Grouping>(Grouping(std::move(expr)));

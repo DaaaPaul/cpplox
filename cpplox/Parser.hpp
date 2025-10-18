@@ -14,6 +14,8 @@ private:
     int current;
 
     std::unique_ptr<Expr> expression();
+    std::unique_ptr<Expr> comma();
+    std::unique_ptr<Expr> resolveCommas(std::unique_ptr<Expr> left);
     std::unique_ptr<Expr> equality();
     std::unique_ptr<Expr> resolveEqualities(std::unique_ptr<Expr> left);
     std::unique_ptr<Expr> comparison();

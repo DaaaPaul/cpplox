@@ -79,8 +79,9 @@ void Scanner::stringLiteral() {
 	}
 	
 	if(peek() == '"') {
+		std::string s = source.substr(start + 1, current - start - 1);
 		consume();
-		addToken(TokenType::STRING_LITERAL, source.substr(start + 1, current - start - 1));
+		addToken(TokenType::STRING_LITERAL, s);
 	} else if(atEnd()) {
 		Lox::reportError(Token(line, std::monostate{}, source.substr(start + 1, current - start - 1), TokenType::END_OF_FILE), "Unfinished string literal");
 	}
