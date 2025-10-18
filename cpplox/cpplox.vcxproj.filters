@@ -92,5 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />
+    <Text Include="SampleExpression.txt" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "Parser.hpp"
 #include "Lox.hpp"
 #include "ParseError.h"
-#include <memory> // for make_unique
+#include <memory>
 
 Parser::Parser(std::vector<Token>&& tokensIn)
     : tokens(std::move(tokensIn)), current(0) {
@@ -12,7 +12,7 @@ std::unique_ptr<Expr> Parser::parse() noexcept {
         return expression();
     }
     catch (const ParseError&) {
-        return nullptr; // or return std::make_unique<Literal>(std::monostate{});
+        return nullptr;
     }
 }
 
@@ -21,116 +21,82 @@ std::unique_ptr<Expr> Parser::expression() {
 }
 
 std::unique_ptr<Expr> Parser::equality() {
-    auto left = comparison();
-    return resolveEqualities(std::move(left));
+    std::unique_ptr<Expr> comparisonExpr = comparison();
+    return resolveEqualities(std::move(comparisonExpr));
 }
 
 std::unique_ptr<Expr> Parser::resolveEqualities(std::unique_ptr<Expr> left) {
-    if (!match({ TokenType::NOT_EQUAL, TokenType::EQUAL_EQUAL })) {
-        return left;
-    }
+    if (!match({ TokenType::NOT_EQUAL, TokenType::EQUAL_EQUAL })) return left;
 
     Token op = previous();
-    auto right = comparison();
-    auto binary = std::make_unique<Binary>();
-    binary->left = std::move(left);
-    binary->op = op;
-    binary->right = std::move(right);
+    std::unique_ptr<Expr> right = comparison();
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
     return resolveEqualities(std::move(binary));
 }
 
 std::unique_ptr<Expr> Parser::comparison() {
-    auto left = additive();
+    std::unique_ptr<Expr> left = additive();
     return resolveComparisons(std::move(left));
 }
 
 std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr> left) {
-    if (!match({ TokenType::GREATER, TokenType::GREATER_EQUAL,
-                 TokenType::LESSER, TokenType::LESSER_EQUAL })) {
-        return left;
-    }
+    if (!match({ TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESSER, TokenType::LESSER_EQUAL })) return left;
 
     Token op = previous();
-    auto right = additive(); // ? bug fix: should be additive(), not comparison()
-    auto binary = std::make_unique<Binary>();
-    binary->left = std::move(left);
-    binary->op = op;
-    binary->right = std::move(right);
+    std::unique_ptr<Expr> right = additive();
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
     return resolveComparisons(std::move(binary));
 }
 
 std::unique_ptr<Expr> Parser::additive() {
-    auto left = multiplicitive();
+    std::unique_ptr<Expr> left = multiplicitive();
     return resolveAdditives(std::move(left));
 }
 
 std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr> left) {
-    if (!match({ TokenType::PLUS, TokenType::MINUS })) {
-        return left;
-    }
+    if (!match({ TokenType::PLUS, TokenType::MINUS })) return left;
 
     Token op = previous();
-    auto right = multiplicitive(); // ? should be multiplicitive(), not comparison()
-    auto binary = std::make_unique<Binary>();
-    binary->left = std::move(left);
-    binary->op = op;
-    binary->right = std::move(right);
+    std::unique_ptr<Expr> right = multiplicitive();
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
     return resolveAdditives(std::move(binary));
 }
 
 std::unique_ptr<Expr> Parser::multiplicitive() {
-    auto left = unary();
+    std::unique_ptr<Expr> left = unary();
     return resolveMultiplicitives(std::move(left));
 }
 
 std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr> left) {
-    if (!match({ TokenType::STAR, TokenType::SLASH })) {
-        return left;
-    }
+    if (!match({ TokenType::STAR, TokenType::SLASH })) return left;
 
     Token op = previous();
-    auto right = unary(); // ? should be unary(), not comparison()
-    auto binary = std::make_unique<Binary>();
-    binary->left = std::move(left);
-    binary->op = op;
-    binary->right = std::move(right);
+    std::unique_ptr<Expr> right = unary();
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
     return resolveMultiplicitives(std::move(binary));
 }
 
 std::unique_ptr<Expr> Parser::unary() {
     if (match({ TokenType::NOT, TokenType::MINUS })) {
         Token op = previous();
-        auto right = unary();
-        auto unaryNode = std::make_unique<Unary>();
-        unaryNode->op = op;
-        unaryNode->right = std::move(right);
-        return unaryNode;
+        std::unique_ptr<Expr> right = unary();
+        std::unique_ptr<Expr> unary = std::make_unique<Unary>(Unary(op, std::move(right)));
+        return unary;
     }
 
     return primary();
 }
 
 std::unique_ptr<Expr> Parser::primary() {
-    if (match({ TokenType::FALSE })) {
-        return std::make_unique<Literal>(false);
-    }
-    if (match({ TokenType::TRUE })) {
-        return std::make_unique<Literal>(true);
-    }
-    if (match({ TokenType::NIL })) {
-        return std::make_unique<Literal>(std::monostate{});
-    }
-
-    if (match({ TokenType::STRING_LITERAL, TokenType::NUMERIC_LITERAL })) {
-        auto lit = std::make_unique<Literal>(previous().getLiteral());
-        return lit;
-    }
+    if (match({ TokenType::FALSE })) return std::make_unique<Literal>(false);
+    else if (match({ TokenType::TRUE })) return std::make_unique<Literal>(true);
+    else if (match({ TokenType::NIL })) return std::make_unique<Literal>(std::monostate{});
+    else if (match({ TokenType::STRING_LITERAL, TokenType::NUMERIC_LITERAL })) return std::make_unique<Literal>(previous().getLiteral());
 
     if (match({ TokenType::LEFT_PARENTHESE })) {
-        auto expr = expression();
+        std::unique_ptr<Expr> expr = expression();
         consume(TokenType::RIGHT_PARENTHESE, "Expected ')' after expression.");
-        auto grouping = std::make_unique<Grouping>();
-        grouping->expr = std::move(expr);
+        std::unique_ptr<Expr> grouping = std::make_unique<Grouping>(Grouping(std::move(expr)));
         return grouping;
     }
 

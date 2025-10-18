@@ -28,6 +28,7 @@ class Grouping : public Expr {
 public:
 	std::unique_ptr<Expr> expr;
 
+	Grouping(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
 	void accept(Visitor const& visitor) const override;
 };
 
@@ -36,6 +37,7 @@ public:
 	Token op;
 	std::unique_ptr<Expr> right;
 
+	Unary(Token const& o, std::unique_ptr<Expr>&& r) : op(o), right(std::move(r)) {}
 	void accept(Visitor const& visitor) const override;
 };
 
@@ -45,5 +47,6 @@ public:
 	Token op;
 	std::unique_ptr<Expr> right;
 
+	Binary(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor const& visitor) const override;
 };
