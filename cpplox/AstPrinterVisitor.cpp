@@ -3,11 +3,11 @@
 #include <memory>
 #include <initializer_list>
 
-void AstPrinterVisitor::print(Expr const& expr) {
+void AstPrinterVisitor::print(Expr& expr) {
 	expr.accept(*this);
 }
 
-void AstPrinterVisitor::visitLiteral(const Literal& literal) {
+void AstPrinterVisitor::visitLiteral(Literal& literal) {
 	if (std::holds_alternative<std::monostate>(literal.value)) {
 		std::cout << "nil";
 	} else if(std::holds_alternative<double>(literal.value)) {
@@ -19,22 +19,22 @@ void AstPrinterVisitor::visitLiteral(const Literal& literal) {
 	}
 }
 
-void AstPrinterVisitor::visitGrouping(const Grouping& grouping) {
+void AstPrinterVisitor::visitGrouping(Grouping& grouping) {
 	parenthesize("grouping", { *(grouping.expr) });
 }
 
-void AstPrinterVisitor::visitUnary(const Unary& unary) {
+void AstPrinterVisitor::visitUnary(Unary& unary) {
 	parenthesize(unary.op.toLexeme(), { *unary.right });
 }
 
-void AstPrinterVisitor::visitBinary(const Binary& binary) {
+void AstPrinterVisitor::visitBinary(Binary& binary) {
 	parenthesize(binary.op.toLexeme(), { *binary.left, *binary.right });
 }
 
-void AstPrinterVisitor::parenthesize(std::string const& identity, std::initializer_list<std::reference_wrapper<const Expr>> const& exprs) {
+void AstPrinterVisitor::parenthesize(std::string const& identity, std::initializer_list<std::reference_wrapper<Expr>> const& exprs) {
 	std::cout << "(" << identity;
 
-	for (Expr const& e : exprs) {
+	for (Expr& e : exprs) {
 		std::cout << " ";
 		e.accept(*this);
 	}

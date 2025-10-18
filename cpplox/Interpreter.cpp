@@ -1,21 +1,21 @@
 #include "Interpreter.hpp"
 
-void Interpreter::visitLiteral(const Literal& literal) {
+void Interpreter::visitLiteral(Literal& literal) {
 	interpretedValue = literal.value;
 }
 
-void Interpreter::visitGrouping(const Grouping& grouping) {
-	interpretedValue = eval(std::make_unique<Expr>(*grouping.expr));
+void Interpreter::visitGrouping(Grouping& grouping) {
+	eval(std::move(grouping.expr));
 }
 
-void Interpreter::visitUnary(const Unary& unary) {
-
-}
-
-void Interpreter::visitBinary(const Binary& binary) {
+void Interpreter::visitUnary(Unary& unary) {
 
 }
 
-std::variant<bool, double, std::string, std::monostate> Interpreter::eval(std::unique_ptr<Expr> expr) {
+void Interpreter::visitBinary(Binary& binary) {
+
+}
+
+void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }
