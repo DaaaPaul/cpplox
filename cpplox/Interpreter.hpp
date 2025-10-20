@@ -16,6 +16,7 @@ public:
 
 private:
 	void eval(std::unique_ptr<Expr>&& expr);
+	void isTruthy();
 
 	std::variant<bool, double, std::string, std::monostate> interpretedValue = std::monostate{};
 };
