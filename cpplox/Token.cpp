@@ -1,5 +1,6 @@
 #include "Token.hpp"
 #include "TokenType.h"
+#include <iostream>
 
 Token::Token() :line{ -1 }, literal{ std::monostate{} }, lexeme{""}, type{ TokenType::EMPTY } {}
 

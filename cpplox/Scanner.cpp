@@ -168,7 +168,7 @@ void Scanner::scanToken() {
 				identifierKeyword();
 				break;
 			}
-			Lox::reportError(Token(line, std::monostate{}, std::to_string(source[current - 1]), TokenType::UNKNOWN), "Undefined character"); break;
+			Lox::reportError(Token(line, std::monostate{}, std::string() + source[current - 1], TokenType::UNKNOWN), "Undefined character"); break;
 	}
 }
 

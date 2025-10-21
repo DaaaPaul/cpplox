@@ -113,7 +113,7 @@ std::unique_ptr<Expr> Parser::primary() {
         return grouping;
     }
 
-    throw error(peek(), "Expected expression.");
+    throw error(peek(), "Expected expression");
 }
 
 bool Parser::match(std::initializer_list<TokenType> types) {

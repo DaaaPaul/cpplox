@@ -36,11 +36,11 @@ void Lox::runPrompt() {
 	bool quit = false;
 
 	while(!quit) {
-		std::cout << "|>|";
+		std::cout << R"(<Lox> )";
 		if(std::getline(std::cin, input)) {
 			if(input != "QQQ") {
 				run(input);
-				std::cout << '\n';
+				if(!hadError && !hadRuntimeError) std::cout << '\n';
 			} else {
 				quit = true;
 			}
@@ -48,6 +48,7 @@ void Lox::runPrompt() {
 			quit = true;
 		}
 		hadError = false;
+		hadRuntimeError = false;
 	}
 }
 
@@ -64,21 +65,14 @@ void Lox::run(std::string source) {
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
-	if(token.getType() == TokenType::END_OF_FILE) {
-		std::cerr << "-----------------------------------------------------------------------\n";
-		std::cerr << "ERROR at end of file: " << message << " at \"" << token.toLexeme() << "\"" << '\n';
-		std::cerr << "-----------------------------------------------------------------------\n";
-	} else {
-		std::cerr << "-----------------------------------------------------------------------\n";
-		std::cerr << "ERROR at line " << token.getLine() << ": " << message << " at \"" << token.toLexeme() << "\"" << '\n';
-		std::cerr << "-----------------------------------------------------------------------\n";
-	}
+	if (token.getType() != TokenType::END_OF_FILE) std::cerr << "ERROR at line " << token.getLine() << ": " << message << " at \"" << token.toLexeme() << "\"\n";
+	else std::cerr << "ERROR at end of file: " << message << " at \"" << token.toLexeme() << "\"\n";
 
 	hadError = true;
 }
 
 void Lox::reportRuntimeError(LoxRuntimeError const& error) {
 	std::cerr << "RUNTIME ERROR at line " << error.erroneousToken.getLine() << ": " << error.what() << 
-		" at \"" << error.erroneousToken.toLexeme() << "\"";
+		" at \"" << error.erroneousToken.toLexeme() << "\"\n";
 	hadRuntimeError = true;
 }
