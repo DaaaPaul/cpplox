@@ -36,10 +36,14 @@ void Lox::runPrompt() {
 	bool quit = false;
 
 	while(!quit) {
-		std::cout << '>';
+		std::cout << "|>|";
 		if(std::getline(std::cin, input)) {
-			run(input);
-			std::cout << '\n';
+			if(input != "QQQ") {
+				run(input);
+				std::cout << '\n';
+			} else {
+				quit = true;
+			}
 		} else {
 			quit = true;
 		}
@@ -56,7 +60,7 @@ void Lox::run(std::string source) {
 	if (hadError || !expression) return;
 
 	interpreter.interperet(std::move(expression));
-	std::cout << interpreter.stringify() << '\n';
+	std::cout << interpreter.stringify();
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
