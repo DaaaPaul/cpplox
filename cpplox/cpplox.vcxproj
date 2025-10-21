@@ -135,6 +135,7 @@
     <ClInclude Include="Expr.hpp" />
     <ClInclude Include="Interpreter.hpp" />
     <ClInclude Include="Lox.hpp" />
+    <ClInclude Include="LoxRuntimeError.h" />
     <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
