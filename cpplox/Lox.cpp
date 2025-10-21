@@ -60,7 +60,7 @@ void Lox::run(std::string source) {
 	if (hadError || !expression) return;
 
 	interpreter.interperet(std::move(expression));
-	std::cout << interpreter.stringify();
+	if (!hadRuntimeError) std::cout << interpreter.stringify();
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
@@ -79,6 +79,6 @@ void Lox::reportError(Token const& token, std::string const& message) {
 
 void Lox::reportRuntimeError(LoxRuntimeError const& error) {
 	std::cerr << "RUNTIME ERROR at line " << error.erroneousToken.getLine() << ": " << error.what() << 
-		" at\"" << error.erroneousToken.toLexeme() << "\"" << '\n';
+		" at \"" << error.erroneousToken.toLexeme() << "\"";
 	hadRuntimeError = true;
 }

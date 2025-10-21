@@ -1,3 +1,2 @@
-﻿  Parser.cpp
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(14,30): warning C4101: 'error': unreferenced local variable
+﻿  Lox.cpp
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe
