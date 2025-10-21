@@ -9,6 +9,8 @@
 #include "AstPrinterVisitor.hpp"
 
 bool Lox::hadError = false;
+bool Lox::hadRuntimeError = false;
+Interpreter Lox::interpreter;
 
 void Lox::runFile(std::string path) {
 	std::string contents;
@@ -25,9 +27,8 @@ void Lox::runFile(std::string path) {
 	}
 
 	run(contents);
-	if (hadError) {
-		std::exit(1);
-	}
+	if (hadError) std::exit(65);
+	else if (hadRuntimeError) std::exit(70);
 }
 
 void Lox::runPrompt() {
@@ -54,7 +55,8 @@ void Lox::run(std::string source) {
 
 	if (hadError || !expression) return;
 
-	AstPrinterVisitor().print(*expression);
+	interpreter.interperet(std::move(expression));
+	std::cout << interpreter.stringify() << '\n';
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
@@ -69,4 +71,10 @@ void Lox::reportError(Token const& token, std::string const& message) {
 	}
 
 	hadError = true;
+}
+
+void Lox::reportRuntimeError(LoxRuntimeError const& error) {
+	std::cerr << "RUNTIME ERROR at line " << error.erroneousToken.getLine() << ": " << error.what() << 
+		" at\"" << error.erroneousToken.toLexeme() << "\"" << '\n';
+	hadRuntimeError = true;
 }

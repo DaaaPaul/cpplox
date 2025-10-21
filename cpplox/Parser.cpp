@@ -11,7 +11,7 @@ std::unique_ptr<Expr> Parser::parse() noexcept {
     try {
         return expression();
     }
-    catch (const ParseError&) {
+    catch (const ParseError& error) {
         return nullptr;
     }
 }
