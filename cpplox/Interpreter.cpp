@@ -44,8 +44,13 @@ void Interpreter::visitUnary(Unary& unary) {
 	
 	switch(unary.op.getType()) {
 		case TokenType::MINUS:
-			ensureNumeracy(op, rollingValue);
-			rollingValue = std::get<double>(rollingValue) * (-1.0);
+			if (std::holds_alternative<double>(rollingValue)) {
+				rollingValue = std::get<double>(rollingValue) * (-1.0);
+			} else if (std::holds_alternative<bool>(rollingValue)) {
+				rollingValue = !std::get<bool>(rollingValue);
+			} else {
+				throw LoxRuntimeError(op, "Negated operand must be a number or boolean");
+			}
 			break;
 		case TokenType::NOT:
 			rollingValue = isTruthy(rollingValue);
@@ -83,20 +88,20 @@ void Interpreter::visitBinary(Binary& binary) {
 			rollingValue = std::get<double>(left) / std::get<double>(rollingValue);
 			break;
 		case TokenType::GREATER_EQUAL:
-			ensureNumeracies(op, left, rollingValue);
-			rollingValue = std::get<double>(left) >= std::get<double>(rollingValue);
+			ensureStringsOrNumeracies(op, left, rollingValue);
+			rollingValue = left >= rollingValue;
 			break;
 		case TokenType::GREATER:
-			ensureNumeracies(op, left, rollingValue);
-			rollingValue = std::get<double>(left) > std::get<double>(rollingValue);
+			ensureStringsOrNumeracies(op, left, rollingValue);
+			rollingValue = left > rollingValue;
 			break;
 		case TokenType::LESSER:
-			ensureNumeracies(op, left, rollingValue);
-			rollingValue = std::get<double>(left) < std::get<double>(rollingValue);
+			ensureStringsOrNumeracies(op, left, rollingValue);
+			rollingValue = left < rollingValue;
 			break;
 		case TokenType::LESSER_EQUAL:
-			ensureNumeracies(op, left, rollingValue);
-			rollingValue = std::get<double>(left) <= std::get<double>(rollingValue);
+			ensureStringsOrNumeracies(op, left, rollingValue);
+			rollingValue = left <= rollingValue;
 			break;
 		case TokenType::EQUAL_EQUAL:
 			rollingValue = isEquey(left, rollingValue);
@@ -125,10 +130,16 @@ bool Interpreter::isEquey(std::variant<bool, double, std::string, std::monostate
 
 void Interpreter::ensureNumeracy(Token const& op, std::variant<bool, double, std::string, std::monostate> const& operand) const {
 	if (std::holds_alternative<double>(operand)) return;
-	throw LoxRuntimeError(op, "Operand must be a number");
+	else throw LoxRuntimeError(op, "Operand must be a number");
 }
 
 void Interpreter::ensureNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const {
 	if (std::holds_alternative<double>(leftOperand) && std::holds_alternative<double>(rightOperand)) return;
-	throw LoxRuntimeError(op, "Both operands must be numbers");
+	else throw LoxRuntimeError(op, "Both operands must be numbers");
+}
+
+void Interpreter::ensureStringsOrNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const {
+	if (std::holds_alternative<double>(leftOperand) && std::holds_alternative<double>(rightOperand)) return;
+	else if (std::holds_alternative<std::string>(leftOperand) && std::holds_alternative<std::string>(rightOperand)) return;
+	else throw LoxRuntimeError(op, "Both operands must be ethier numbers or strings");
 }

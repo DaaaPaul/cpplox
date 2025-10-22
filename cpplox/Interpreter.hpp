@@ -22,6 +22,7 @@ private:
 	bool isEquey(std::variant<bool, double, std::string, std::monostate> const& left, std::variant<bool, double, std::string, std::monostate> const& right) const;
 	void ensureNumeracy(Token const& op, std::variant<bool, double, std::string, std::monostate> const& operand) const;
 	void ensureNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const;
+	void ensureStringsOrNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const;
 
 	std::variant<bool, double, std::string, std::monostate> rollingValue = std::monostate{};
 };
