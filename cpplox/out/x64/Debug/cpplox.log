@@ -1,11 +1,2 @@
-﻿  AstPrinterVisitor.cpp
-  Expr.cpp
-  Interpreter.cpp
-  Lox.cpp
-  main.cpp
-  Parser.cpp
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(14,30): warning C4101: 'error': unreferenced local variable
-  Scanner.cpp
-  Token.cpp
-  Generating Code...
+﻿  Interpreter.cpp
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe

@@ -23,6 +23,7 @@ private:
 	void ensureNumeracy(Token const& op, std::variant<bool, double, std::string, std::monostate> const& operand) const;
 	void ensureNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const;
 	void ensureStringsOrNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const;
+	std::string doubleToCleanString(double const& d) const;
 
 	std::variant<bool, double, std::string, std::monostate> rollingValue = std::monostate{};
 };

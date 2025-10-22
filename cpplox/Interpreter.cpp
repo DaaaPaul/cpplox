@@ -2,6 +2,7 @@
 #include "LoxRuntimeError.h"
 #include "Lox.hpp"
 #include <cmath>
+#include <iostream>
 
 void Interpreter::interperet(std::unique_ptr<Expr>&& expr) {
 	try {
@@ -15,19 +16,7 @@ std::string Interpreter::stringify() const {
 	if (std::holds_alternative<std::monostate>(rollingValue)) return "nil";
 	else if (std::holds_alternative<bool>(rollingValue)) return ((std::get<bool>(rollingValue)) ? "true" : "false");
 	else if (std::holds_alternative<std::string>(rollingValue)) return std::get<std::string>(rollingValue);
-	else {
-		std::string number = std::to_string(std::get<double>(rollingValue));
-
-		double integralPart = -1.0;
-		double decimalPart = -1.0;
-		decimalPart = std::modf(std::get<double>(rollingValue), &integralPart);
-
-		if (decimalPart == 0.0) {
-			number = std::to_string(static_cast<int>(integralPart));
-		}
-
-		return number;
-	}
+	else return doubleToCleanString(std::get<double>(rollingValue));
 }
 
 void Interpreter::visitLiteral(Literal& literal) {
@@ -71,6 +60,10 @@ void Interpreter::visitBinary(Binary& binary) {
 				rollingValue = std::get<double>(left) + std::get<double>(rollingValue);
 			} else if(std::holds_alternative<std::string>(left) && std::holds_alternative<std::string>(rollingValue)) {
 				rollingValue = std::get<std::string>(left) + std::get<std::string>(rollingValue);
+			} else if ((std::holds_alternative<std::string>(left) && std::holds_alternative<double>(rollingValue))) {
+				rollingValue = std::get<std::string>(left) + doubleToCleanString(std::get<double>(rollingValue));
+			} else if ((std::holds_alternative<double>(left) && std::holds_alternative<std::string>(rollingValue))) {
+				rollingValue = doubleToCleanString(std::get<double>(left)) + std::get<std::string>(rollingValue);
 			} else {
 				throw LoxRuntimeError(op, "Added operands must both be numbers or both be strings");
 			}
@@ -85,7 +78,8 @@ void Interpreter::visitBinary(Binary& binary) {
 			break;
 		case TokenType::SLASH:
 			ensureNumeracies(op, left, rollingValue);
-			rollingValue = std::get<double>(left) / std::get<double>(rollingValue);
+			if(!(std::get<double>(rollingValue) == 0.0)) rollingValue = std::get<double>(left) / std::get<double>(rollingValue);
+			else throw LoxRuntimeError(op, "Divison by zero is undefined");
 			break;
 		case TokenType::GREATER_EQUAL:
 			ensureStringsOrNumeracies(op, left, rollingValue);
@@ -142,4 +136,18 @@ void Interpreter::ensureStringsOrNumeracies(Token const& op, std::variant<bool, 
 	if (std::holds_alternative<double>(leftOperand) && std::holds_alternative<double>(rightOperand)) return;
 	else if (std::holds_alternative<std::string>(leftOperand) && std::holds_alternative<std::string>(rightOperand)) return;
 	else throw LoxRuntimeError(op, "Both operands must be ethier numbers or strings");
+}
+
+std::string Interpreter::doubleToCleanString(double const& d) const {
+	std::string number = std::to_string(d);
+
+	double integralPart = -1.0;
+	double decimalPart = -1.0;
+	decimalPart = std::modf(d, &integralPart);
+
+	if (decimalPart == 0.0) {
+		number = std::to_string(static_cast<int>(integralPart));
+	}
+
+	return number;
 }
