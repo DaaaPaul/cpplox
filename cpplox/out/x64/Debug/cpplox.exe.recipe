@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\paulp\ComputerPrograms\cpplox\x64\Debug\cpplox.exe</FullPath>
+      <FullPath>C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

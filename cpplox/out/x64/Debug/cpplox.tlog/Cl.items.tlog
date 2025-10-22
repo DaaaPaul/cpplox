@@ -1,0 +1,8 @@
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\AstPrinterVisitor.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\AstPrinterVisitor.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Expr.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Expr.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Interpreter.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Interpreter.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Lox.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Lox.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\main.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\main.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Parser.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Scanner.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Scanner.obj
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Token.cpp;C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\Token.obj
