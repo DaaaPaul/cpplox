@@ -4,7 +4,7 @@
 #include <cmath>
 #include <iostream>
 
-void Interpreter::interperet(std::unique_ptr<Expr>&& expr) {
+void Interpreter::interperet(std::unique_ptr<Expr>&& expr) noexcept {
 	try {
 		eval(std::move(expr));
 	} catch(const LoxRuntimeError& error) {

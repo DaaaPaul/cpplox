@@ -8,7 +8,7 @@
 
 class Interpreter : public Visitor {
 public:
-	void interperet(std::unique_ptr<Expr>&& expr);
+	void interperet(std::unique_ptr<Expr>&& expr) noexcept;
 	void visitLiteral(Literal& literal) override;
 	void visitGrouping(Grouping& grouping) override;
 	void visitUnary(Unary& unary) override;

@@ -75,6 +75,9 @@
     <ClInclude Include="LoxRuntimeError.h">
       <Filter>Interpreter</Filter>
     </ClInclude>
+    <ClInclude Include="Stmt.hpp">
+      <Filter>Ast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />

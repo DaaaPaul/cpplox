@@ -141,6 +141,7 @@
     <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
+    <ClInclude Include="Stmt.hpp" />
     <ClInclude Include="Token.hpp" />
     <ClInclude Include="TokenType.h" />
     <ClInclude Include="Visitor.hpp" />

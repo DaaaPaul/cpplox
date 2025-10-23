@@ -7,11 +7,16 @@
 #include "Token.hpp"
 #include "Expr.hpp"
 #include "ParseError.h"
+#include "Stmt.hpp"
 
 class Parser {
 private:
     std::vector<Token> tokens;
     int current;
+
+    std::unique_ptr<Stmt> statement();
+    std::unique_ptr<Stmt> printStatement();
+    std::unique_ptr<Stmt> expressionStatement();
 
     std::unique_ptr<Expr> expression();
     std::unique_ptr<Expr> comma();
@@ -39,5 +44,5 @@ private:
 
 public:
     Parser(std::vector<Token>&& tokensIn);
-    std::unique_ptr<Expr> parse() noexcept;
+    std::vector<Stmt> parse() noexcept;
 };

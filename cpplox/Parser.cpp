@@ -1,19 +1,37 @@
 #include "Parser.hpp"
 #include "Lox.hpp"
 #include "ParseError.h"
+#include "Stmt.hpp"
 #include <memory>
+#include <vector>
 
 Parser::Parser(std::vector<Token>&& tokensIn)
     : tokens(std::move(tokensIn)), current(0) {
 }
 
-std::unique_ptr<Expr> Parser::parse() noexcept {
-    try {
-        return expression();
+std::vector<Stmt> Parser::parse() noexcept {
+    std::vector<std::unique_ptr<Stmt>> statements;
+
+    while(!atEnd()) {
+        statements.push_back(statement());
     }
-    catch (const ParseError& error) {
-        return nullptr;
-    }
+}
+
+std::unique_ptr<Stmt> Parser::statement() {
+    if (match({ TokenType::PRINT })) return printStatement();
+    else return expressionStatement();
+}
+
+std::unique_ptr<Stmt> Parser::printStatement() {
+    std::unique_ptr<Expr> toPrint = expression();
+    consume(TokenType::SEMICOLON, "Expected \";\" after expression");
+    return std::make_unique<Print>(toPrint);
+}
+
+std::unique_ptr<Stmt> Parser::expressionStatement() {
+    std::unique_ptr<Expr> expr = expression();
+    consume(TokenType::SEMICOLON, "Expected \";\" after expression");
+    return std::make_unique<ExprStmt>(expr);
 }
 
 std::unique_ptr<Expr> Parser::expression() {
