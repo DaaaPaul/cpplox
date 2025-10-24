@@ -123,8 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AstPrinterVisitor.cpp" />
-    <ClCompile Include="Expr.cpp" />
+    <ClCompile Include="AstPrinter.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="Lox.cpp" />
     <ClCompile Include="main.cpp" />
@@ -133,21 +132,20 @@
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AstPrinterVisitor.hpp" />
-    <ClInclude Include="Expr.hpp" />
+    <ClInclude Include="AstPrinter.hpp" />
+    <ClInclude Include="Expr.h" />
     <ClInclude Include="Interpreter.hpp" />
     <ClInclude Include="Lox.hpp" />
     <ClInclude Include="LoxRuntimeError.h" />
     <ClInclude Include="ParseError.h" />
     <ClInclude Include="Parser.hpp" />
     <ClInclude Include="Scanner.hpp" />
-    <ClInclude Include="Stmt.hpp" />
+    <ClInclude Include="Stmt.h" />
     <ClInclude Include="Token.hpp" />
     <ClInclude Include="TokenType.h" />
-    <ClInclude Include="Visitor.hpp" />
+    <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SampleExpression.txt" />
     <Text Include="SampleSource.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

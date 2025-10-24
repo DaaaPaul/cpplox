@@ -5,9 +5,9 @@
 #include <string>
 #include <memory>
 #include "Token.hpp"
-#include "Expr.hpp"
+#include "Expr.h"
 #include "ParseError.h"
-#include "Stmt.hpp"
+#include "Stmt.h"
 
 class Parser {
 private:
@@ -44,5 +44,5 @@ private:
 
 public:
     Parser(std::vector<Token>&& tokensIn);
-    std::vector<Stmt> parse() noexcept;
+    std::vector<std::unique_ptr<Stmt>> parse() noexcept;
 };

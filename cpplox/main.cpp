@@ -3,7 +3,7 @@
 #include <memory>
 #include "Lox.hpp"
 #include "Token.hpp"
-#include "AstPrinterVisitor.hpp"
+#include "AstPrinter.hpp"
 
 int main() {
 	std::string mode;
@@ -27,11 +27,6 @@ int main() {
 		std::getline(std::cin, filepath);
 		Lox::runFile(filepath);
 	}
-
-	//Literal rhNum; rhNum.value = 45.67;
-	//Grouping rhParentheses; rhParentheses.expr = std::make_unique<Literal>(rhNum);
-	//std::unique_ptr<Expr> rhGrouping = std::make_unique<Grouping>(std::move(rhParentheses));
-	//AstPrinterVisitor().print(*rhGrouping);
 
 	return 0;
 }

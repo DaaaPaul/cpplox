@@ -18,10 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AstPrinterVisitor.cpp">
-      <Filter>Ast</Filter>
-    </ClCompile>
-    <ClCompile Include="Expr.cpp">
+    <ClCompile Include="AstPrinter.cpp">
       <Filter>Ast</Filter>
     </ClCompile>
     <ClCompile Include="Lox.cpp">
@@ -54,13 +51,13 @@
     <ClInclude Include="TokenType.h">
       <Filter>Scanner</Filter>
     </ClInclude>
-    <ClInclude Include="Expr.hpp">
+    <ClInclude Include="Expr.h">
       <Filter>Ast</Filter>
     </ClInclude>
-    <ClInclude Include="AstPrinterVisitor.hpp">
+    <ClInclude Include="AstPrinter.hpp">
       <Filter>Ast</Filter>
     </ClInclude>
-    <ClInclude Include="Visitor.hpp">
+    <ClInclude Include="Visitor.h">
       <Filter>Ast</Filter>
     </ClInclude>
     <ClInclude Include="Parser.hpp">
@@ -75,12 +72,11 @@
     <ClInclude Include="LoxRuntimeError.h">
       <Filter>Interpreter</Filter>
     </ClInclude>
-    <ClInclude Include="Stmt.hpp">
+    <ClInclude Include="Stmt.h">
       <Filter>Ast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleSource.txt" />
-    <Text Include="SampleExpression.txt" />
   </ItemGroup>
 </Project>

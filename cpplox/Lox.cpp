@@ -6,7 +6,7 @@
 #include "Token.hpp"
 #include "Scanner.hpp"
 #include "Parser.hpp"
-#include "AstPrinterVisitor.hpp"
+#include "AstPrinter.hpp"
 
 bool Lox::hadError = false;
 bool Lox::hadRuntimeError = false;
@@ -56,12 +56,11 @@ void Lox::run(std::string source) {
 	Scanner scanner(source);
 	std::vector<Token> tokens = scanner.scanTokens();
 	Parser parser(std::move(tokens));
-	std::unique_ptr<Expr> expression = parser.parse();
+	std::vector<std::unique_ptr<Stmt>> statements(parser.parse());
 
-	if (hadError || !expression) return;
+	if (hadError) return;
 
-	interpreter.interperet(std::move(expression));
-	if (!hadRuntimeError) std::cout << interpreter.stringify();
+	interpreter.interperet(std::move(statements));
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {

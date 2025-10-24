@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include "Token.hpp"
-#include "Visitor.hpp"
+#include "Visitor.h"
 
 class Expr {
 public:
@@ -21,7 +21,7 @@ public:
 	Literal(std::string const& s) : value(s) {}
 	Literal(std::monostate const& m) : value(m) {}
 	Literal(std::variant<bool, double, std::string, std::monostate> const& v) : value(v) {}
-	void accept(Visitor& visitor) override;
+	void accept(Visitor& visitor) override { visitor.visitLiteral(*this); }
 };
 
 class Grouping : public Expr {
@@ -29,7 +29,7 @@ public:
 	std::unique_ptr<Expr> expr;
 
 	Grouping(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
-	void accept(Visitor& visitor) override;
+	void accept(Visitor& visitor) override { visitor.visitGrouping(*this); }
 };
 
 class Unary : public Expr {
@@ -38,7 +38,7 @@ public:
 	std::unique_ptr<Expr> right;
 
 	Unary(Token const& o, std::unique_ptr<Expr>&& r) : op(o), right(std::move(r)) {}
-	void accept(Visitor& visitor) override;
+	void accept(Visitor& visitor) override { visitor.visitUnary(*this); }
 };
 
 class Binary : public Expr {
@@ -48,5 +48,5 @@ public:
 	std::unique_ptr<Expr> right;
 
 	Binary(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
-	void accept(Visitor& visitor) override;
+	void accept(Visitor& visitor) override { visitor.visitBinary(*this); }
 };

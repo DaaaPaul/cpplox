@@ -1,8 +1,3 @@
-var yeet = "Paul";
-
-fun identity(var v) {
-	return v;
-}
-
-print "Hello!;
-print 123;
+print "one";
+print true;
+print 1 + 2;

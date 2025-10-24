@@ -1,2 +1,7 @@
 ﻿  Interpreter.cpp
+  Lox.cpp
+  main.cpp
+  Parser.cpp
+  Scanner.cpp
+  Generating Code...
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe

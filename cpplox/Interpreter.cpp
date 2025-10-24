@@ -1,12 +1,15 @@
 #include "Interpreter.hpp"
 #include "LoxRuntimeError.h"
 #include "Lox.hpp"
+#include "Stmt.h"
 #include <cmath>
 #include <iostream>
 
-void Interpreter::interperet(std::unique_ptr<Expr>&& expr) noexcept {
+void Interpreter::interperet(std::vector<std::unique_ptr<Stmt>>&& stmts) noexcept {
 	try {
-		eval(std::move(expr));
+		for(std::unique_ptr<Stmt>& s : stmts) {
+			execute(std::move(s));
+		}
 	} catch(const LoxRuntimeError& error) {
 		Lox::reportRuntimeError(error);
 	}
@@ -106,8 +109,21 @@ void Interpreter::visitBinary(Binary& binary) {
 	}
 }
 
+void Interpreter::visitExprStmt(ExprStmt& exprStmt) {
+	eval(std::move(exprStmt.expr));
+}
+
+void Interpreter::visitPrint(Print& print) {
+	eval(std::move(print.expr));
+	std::cout << stringify() << '\n';
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
+}
+
+void Interpreter::execute(std::unique_ptr<Stmt>&& stmt) {
+	stmt->accept(*this);
 }
 
 bool Interpreter::isTruthy(std::variant<bool, double, std::string, std::monostate> const& value) const {
