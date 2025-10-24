@@ -146,7 +146,7 @@
     <ClInclude Include="Visitor.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="SampleSource.txt" />
+    <Text Include="sample.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

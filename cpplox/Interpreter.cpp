@@ -68,7 +68,7 @@ void Interpreter::visitBinary(Binary& binary) {
 			} else if ((std::holds_alternative<double>(left) && std::holds_alternative<std::string>(rollingValue))) {
 				rollingValue = doubleToCleanString(std::get<double>(left)) + std::get<std::string>(rollingValue);
 			} else {
-				throw LoxRuntimeError(op, "Added operands must both be numbers or both be strings");
+				throw LoxRuntimeError(op, "Added operands must be numbers or strings");
 			}
 			break;
 		case TokenType::MINUS:

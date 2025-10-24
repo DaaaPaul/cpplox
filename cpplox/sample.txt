@@ -1,0 +1,7 @@
+print "HAH" + 3.14;
+
+print (3+5)*8<=3+5*8;
+
+print 1 + 2;
+
+print nil + 3;
