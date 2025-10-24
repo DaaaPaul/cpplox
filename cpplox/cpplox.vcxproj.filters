@@ -37,6 +37,9 @@
       <Filter>Scanner</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Environment.cpp">
+      <Filter>Interpreter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lox.hpp">
@@ -74,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="Stmt.h">
       <Filter>Ast</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.hpp">
+      <Filter>Interpreter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

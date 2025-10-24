@@ -50,3 +50,11 @@ public:
 	Binary(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitBinary(*this); }
 };
+
+class Variable : public Expr {
+public:
+	Token identifier;
+
+	Variable(Token const& t) : identifier(t) {}
+	void accept(Visitor& visitor) override { visitor.visitVariable(*this); }
+};

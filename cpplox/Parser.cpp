@@ -13,10 +13,30 @@ std::vector<std::unique_ptr<Stmt>> Parser::parse() noexcept {
     std::vector<std::unique_ptr<Stmt>> statements;
 
     while(!atEnd()) {
-        statements.push_back(statement());
+        statements.push_back(declaration());
     }
 
     return statements;
+}
+
+std::unique_ptr<Stmt> Parser::declaration() {
+    try {
+        if (match({ TokenType::VAR })) return varDeclaration();
+        else return statement();
+    } catch(ParseError const& e) {
+        synchronize();
+        return nullptr;
+    }
+}
+
+std::unique_ptr<Stmt> Parser::varDeclaration() {
+    Token identifier = consume(TokenType::IDENTIFIER, "Expected variable name");
+
+    std::unique_ptr<Expr> initializer = nullptr;
+    if (match({ TokenType::EQUAL })) initializer = expression();
+
+    consume(TokenType::SEMICOLON, "Expected \";\" after variable declaration");
+    return std::make_unique<Var>(identifier, std::move(initializer));
 }
 
 std::unique_ptr<Stmt> Parser::statement() {
@@ -126,6 +146,7 @@ std::unique_ptr<Expr> Parser::primary() {
     else if (match({ TokenType::TRUE })) return std::make_unique<Literal>(true);
     else if (match({ TokenType::NIL })) return std::make_unique<Literal>(std::monostate{});
     else if (match({ TokenType::STRING_LITERAL, TokenType::NUMERIC_LITERAL })) return std::make_unique<Literal>(previous().getLiteral());
+    else if (match({ TokenType::IDENTIFIER })) return std::make_unique<Variable>(previous());
     else if (match({ TokenType::LEFT_PARENTHESE })) {
         std::unique_ptr<Expr> expr = expression();
         consume(TokenType::RIGHT_PARENTHESE, "Expected ')' after expression.");
@@ -163,31 +184,4 @@ void Parser::synchronize() {
         }
         advance();
     }
-}
-
-inline Token Parser::advance() {
-    if (!atEnd()) ++current;
-    return previous();
-}
-
-inline Token Parser::consume(TokenType type, std::string const& msg) {
-    if (check(type)) return advance();
-    throw error(peek(), msg);
-}
-
-inline ParseError Parser::error(Token const& token, std::string const& msg) {
-    Lox::reportError(token, msg);
-    return ParseError(msg);
-}
-
-inline bool Parser::atEnd() const {
-    return current >= static_cast<int>(tokens.size() - 1);
-}
-
-inline Token Parser::peek() const {
-    return tokens[current];
-}
-
-inline Token Parser::previous() const {
-    return tokens[current - 1];
 }

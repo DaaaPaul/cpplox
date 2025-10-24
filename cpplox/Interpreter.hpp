@@ -3,6 +3,7 @@
 #include "Visitor.h"
 #include "Expr.h"
 #include "Stmt.h"
+#include "Environment.hpp"
 #include <variant>
 #include <string>
 #include <memory>
@@ -17,6 +18,8 @@ public:
 	void visitBinary(Binary& binary) override;
 	void visitExprStmt(ExprStmt& exprStmt) override;
 	void visitPrint(Print& print) override;
+	void visitVar(Var& v) override;
+	void visitVariable(Variable& v) override;
 	std::variant<bool, double, std::string, std::monostate> getRollingValue() const { return rollingValue; }
 	std::string stringify() const;
 
@@ -31,4 +34,5 @@ private:
 	std::string doubleToCleanString(double const& d) const;
 
 	std::variant<bool, double, std::string, std::monostate> rollingValue = std::monostate{};
+	Environment environment{};
 };

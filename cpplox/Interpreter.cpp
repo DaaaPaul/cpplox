@@ -45,8 +45,7 @@ void Interpreter::visitUnary(Unary& unary) {
 			}
 			break;
 		case TokenType::NOT:
-			rollingValue = isTruthy(rollingValue);
-			rollingValue = !std::get<bool>(rollingValue);
+			rollingValue = !isTruthy(rollingValue);
 			break;
 	}
 }
@@ -118,6 +117,21 @@ void Interpreter::visitPrint(Print& print) {
 	std::cout << stringify() << '\n';
 }
 
+void Interpreter::visitVar(Var& v) {
+	std::variant<bool, double, std::string, std::monostate> value = std::monostate{};
+
+	if(v.initializer) {
+		eval(std::move(v.initializer));
+		value = rollingValue;
+	}
+
+	environment.define(v.name.toLexeme(), value);
+}
+
+void Interpreter::visitVariable(Variable& v) {
+	rollingValue = environment.get(v.identifier);
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }
@@ -151,7 +165,7 @@ void Interpreter::ensureNumeracies(Token const& op, std::variant<bool, double, s
 void Interpreter::ensureStringsOrNumeracies(Token const& op, std::variant<bool, double, std::string, std::monostate> const& leftOperand, std::variant<bool, double, std::string, std::monostate> const& rightOperand) const {
 	if (std::holds_alternative<double>(leftOperand) && std::holds_alternative<double>(rightOperand)) return;
 	else if (std::holds_alternative<std::string>(leftOperand) && std::holds_alternative<std::string>(rightOperand)) return;
-	else throw LoxRuntimeError(op, "Both operands must be ethier numbers or strings");
+	else throw LoxRuntimeError(op, "Both operands must be either numbers or strings");
 }
 
 std::string Interpreter::doubleToCleanString(double const& d) const {

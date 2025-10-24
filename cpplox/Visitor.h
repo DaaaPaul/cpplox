@@ -6,6 +6,8 @@ class Unary;
 class Binary;
 class ExprStmt;
 class Print;
+class Var;
+class Variable;
 
 class Visitor {
 public:
@@ -15,4 +17,6 @@ public:
 	virtual void visitBinary(Binary& e) = 0;
 	virtual void visitExprStmt(ExprStmt& s) = 0;
 	virtual void visitPrint(Print& s) = 0;
+	virtual void visitVar(Var& v) = 0;
+	virtual void visitVariable(Variable& v) = 0;
 };

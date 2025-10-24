@@ -1,7 +1,7 @@
-print "HAH" + 3.14;
+var name = "Paul";
 
-print (3+5)*8<=3+5*8;
+var age = 17;
 
-print 1 + 2;
+var heightInCm = 175.5;
 
-print nil + 3;
+print "My name is " + name + " and I am " + age + ". I'm " + heightInCm + " tall!";
