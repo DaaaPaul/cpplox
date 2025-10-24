@@ -181,7 +181,7 @@ inline ParseError Parser::error(Token const& token, std::string const& msg) {
 }
 
 inline bool Parser::atEnd() const {
-    return current >= static_cast<int>(tokens.size());
+    return current >= static_cast<int>(tokens.size() - 1);
 }
 
 inline Token Parser::peek() const {

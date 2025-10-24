@@ -22,11 +22,12 @@ void Lox::runFile(std::string path) {
 			contents.append(line + "\n");
 		}
 		contents.pop_back();
+
+		run(contents);
 	} else {
 		std::cerr << "Failed to run file at " << path << '\n';
 	}
 
-	run(contents);
 	if (hadError) std::exit(65);
 	else if (hadRuntimeError) std::exit(70);
 }

@@ -177,6 +177,7 @@ std::vector<Token> Scanner::scanTokens() noexcept {
 		start = current;
 		scanToken();
 	}
+	start = current;
 	addToken(TokenType::END_OF_FILE);
 
 	return tokens;
