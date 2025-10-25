@@ -38,8 +38,8 @@ public:
 
 class Block : public Stmt {
 public:
-	std::vector<std::unique_ptr<Stmt>> stmts;
+	std::vector<std::unique_ptr<Stmt>> innerStatements;
 
-	Block(std::vector<std::unique_ptr<Stmt>>&& s) : stmts(std::move(stmts)) {}
+	Block(std::vector<std::unique_ptr<Stmt>>&& s) : innerStatements(std::move(s)) {}
 	void accept(Visitor& visitor) override { visitor.visitBlock(*this); }
 };

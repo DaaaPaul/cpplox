@@ -138,7 +138,7 @@ void Interpreter::visitAssign(Assign& a) {
 }
 
 void Interpreter::visitBlock(Block& b) {
-	executeBlock(std::move(b.stmts), environment);
+	executeBlock(std::move(b.innerStatements), environment);
 }
 
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
@@ -154,6 +154,7 @@ void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block, Envir
 
 	try {
 		environment = inner;
+		environment.setEnclosing(previous);
 
 		for(std::unique_ptr<Stmt>& stmt : block) {
 			execute(std::move(stmt));

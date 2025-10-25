@@ -2,6 +2,27 @@
 #include "LoxRuntimeError.h"
 #include <iostream>
 
+Environment::Environment(Environment const& e) : variables(e.variables) {
+	if (e.enclosing) {
+		enclosing = std::make_unique<Environment>(*(e.enclosing));
+	} else {
+		enclosing = nullptr;
+	}
+}
+
+Environment& Environment::operator=(Environment const& e) {
+	 if (this == &e) return *this;
+	 variables = e.variables;
+
+	 if (e.enclosing) {
+		 enclosing = std::make_unique<Environment>(*(e.enclosing));
+	 } else {
+		 enclosing = nullptr;
+	 }
+
+	 return *this;
+}
+
 void Environment::define(std::string const& name, std::variant<bool, double, std::string, std::monostate> const& value) {
 	if(variables.find(name) == variables.end()) {
 		variables.insert({ name, value });
@@ -32,4 +53,8 @@ std::variant<bool, double, std::string, std::monostate> Environment::get(Token c
 	} else {
 		throw LoxRuntimeError(nameToken, "Undefined variable \"" + name + "\"");
 	}
+}
+
+void Environment::setEnclosing(Environment const& e) {
+	enclosing = std::make_unique<Environment>(e);
 }
