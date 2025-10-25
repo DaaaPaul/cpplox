@@ -159,6 +159,8 @@ void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block, Envir
 		for(std::unique_ptr<Stmt>& stmt : block) {
 			execute(std::move(stmt));
 		}
+
+		environment = previous;
 	} catch(LoxRuntimeError const& e) {
 		environment = previous;
 		throw;
