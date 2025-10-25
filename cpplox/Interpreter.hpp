@@ -20,6 +20,7 @@ public:
 	void visitPrint(Print& print) override;
 	void visitVar(Var& v) override;
 	void visitVariable(Variable& v) override;
+	void visitAssign(Assign& a) override;
 	std::variant<bool, double, std::string, std::monostate> getRollingValue() const { return rollingValue; }
 	std::string stringify() const;
 

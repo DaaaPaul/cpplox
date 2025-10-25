@@ -8,6 +8,7 @@ class ExprStmt;
 class Print;
 class Var;
 class Variable;
+class Assign;
 
 class Visitor {
 public:
@@ -19,4 +20,5 @@ public:
 	virtual void visitPrint(Print& s) = 0;
 	virtual void visitVar(Var& v) = 0;
 	virtual void visitVariable(Variable& v) = 0;
+	virtual void visitAssign(Assign& a) = 0;
 };

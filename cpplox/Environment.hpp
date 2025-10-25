@@ -10,6 +10,7 @@
 class Environment {
 public:
 	void define(std::string const& name, std::variant<bool, double, std::string, std::monostate> const& value);
+	void assign(Token const& nameToken, std::variant<bool, double, std::string, std::monostate> const& value);
 	std::variant<bool, double, std::string, std::monostate> get(Token const& nameToken) const;
 
 private:

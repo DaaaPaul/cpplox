@@ -132,6 +132,11 @@ void Interpreter::visitVariable(Variable& v) {
 	rollingValue = environment.get(v.identifier);
 }
 
+void Interpreter::visitAssign(Assign& a) {
+	eval(std::move(a.initializer));
+	environment.assign(a.identifier, rollingValue);
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }

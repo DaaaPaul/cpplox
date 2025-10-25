@@ -58,3 +58,12 @@ public:
 	Variable(Token const& t) : identifier(t) {}
 	void accept(Visitor& visitor) override { visitor.visitVariable(*this); }
 };
+
+class Assign : public Expr {
+public:
+	Token identifier;
+	std::unique_ptr<Expr> initializer;
+
+	Assign(Token const& t, std::unique_ptr<Expr>&& e) : identifier(t), initializer(std::move(e)) {}
+	void accept(Visitor& visitor) override { visitor.visitAssign(*this); }
+};

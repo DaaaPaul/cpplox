@@ -5,3 +5,8 @@ var age = 17;
 var heightInCm = 175.5;
 
 print "My name is " + name + " and I am " + age + ". I'm " + heightInCm + " tall!";
+
+name = "Pekka";
+age = 20;
+
+print "Wait no... my name is " + name + " and I am " + age + ". I'm " + heightInCm + " tall!";

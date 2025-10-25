@@ -61,17 +61,35 @@ std::unique_ptr<Expr> Parser::expression() {
 }
 
 std::unique_ptr<Expr> Parser::comma() {
-    std::unique_ptr<Expr> equalityExpr = equality();
-    return resolveCommas(std::move(equalityExpr));
+    std::unique_ptr<Expr> assignExpr = assignment();
+    return resolveCommas(std::move(assignExpr));
 }
 
 std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr> left) {
     if (!match({ TokenType::COMMA })) return left;
 
     Token op = previous();
-    std::unique_ptr<Expr> right = equality();
+    std::unique_ptr<Expr> right = assignment();
     std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
     return resolveCommas(std::move(binary));
+}
+
+std::unique_ptr<Expr> Parser::assignment() {
+    std::unique_ptr<Expr> equalityExpr = equality();
+
+    if(match( {TokenType::EQUAL} )) {
+        const Token equals = previous();
+        std::unique_ptr<Expr> initializer = assignment();
+
+        try {
+            const Token identifier = (dynamic_cast<Variable&>(*equalityExpr)).identifier;
+            return std::make_unique<Assign>(identifier, std::move(initializer));
+        } catch(std::bad_cast const& e) {
+            error(equals, "Assignment must be to a valid variable");
+        }
+    }
+
+    return equalityExpr;
 }
 
 std::unique_ptr<Expr> Parser::equality() {
