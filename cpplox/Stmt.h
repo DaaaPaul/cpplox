@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 #include "Expr.h"
 #include "Visitor.h"
 
@@ -33,4 +34,12 @@ public:
 
 	Var(Token const& n, std::unique_ptr<Expr>&& e) : name(n), initializer(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitVar(*this); }
+};
+
+class Block : public Stmt {
+public:
+	std::vector<std::unique_ptr<Stmt>> stmts;
+
+	Block(std::vector<std::unique_ptr<Stmt>>&& s) : stmts(std::move(stmts)) {}
+	void accept(Visitor& visitor) override { visitor.visitBlock(*this); }
 };

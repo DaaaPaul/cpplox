@@ -65,8 +65,7 @@ void Lox::run(std::string source) {
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
-	if (token.getType() != TokenType::END_OF_FILE) std::cerr << "ERROR at line " << token.getLine() << ": " << message << " at \"" << token.toLexeme() << "\"\n";
-	else std::cerr << "ERROR at end of file: " << message << " at \"" << token.toLexeme() << "\"\n";
+	std::cerr << "ERROR at line " << token.getLine() << ": " << message << " at \"" << token.toLexeme() << "\"\n";
 
 	hadError = true;
 }

@@ -84,5 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="sample.txt" />
+    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>

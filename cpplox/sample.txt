@@ -1,12 +1,24 @@
-var name = "Paul";
+var a = "global a";
+var b = "global b";
+var c = "global c";
+print a;
+print b;
+print c;
 
-var age = 17;
+{
+	var a = "outer a";
+	{
+		var a = "inner a";
+		var b = "inner b";
+		print a;
+		print b;
+		print c;
+	}
+	print a;
+	print b;
+	print c;
+}
 
-var heightInCm = 175.5;
-
-print "My name is " + name + " and I am " + age + ". I'm " + heightInCm + " tall!";
-
-name = "Pekka";
-age = 20;
-
-print "Wait no... my name is " + name + " and I am " + age + ". I'm " + heightInCm + " tall!";
+print a;
+print b;
+print c;

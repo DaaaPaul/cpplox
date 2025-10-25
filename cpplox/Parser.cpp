@@ -4,6 +4,7 @@
 #include "Stmt.h"
 #include <memory>
 #include <vector>
+#include <iostream>
 
 Parser::Parser(std::vector<Token>&& tokensIn)
     : tokens(std::move(tokensIn)), current(0) {
@@ -41,7 +42,19 @@ std::unique_ptr<Stmt> Parser::varDeclaration() {
 
 std::unique_ptr<Stmt> Parser::statement() {
     if (match({ TokenType::PRINT })) return printStatement();
+    if (match({ TokenType::LEFT_BRACE })) return std::make_unique<Block>(block());
     else return expressionStatement();
+}
+
+std::vector<std::unique_ptr<Stmt>> Parser::block() {
+    std::vector<std::unique_ptr<Stmt>> statements;
+
+    while(!check(TokenType::RIGHT_BRACE) && !atEnd()) {
+        statements.push_back(declaration());
+    }
+
+    consume(TokenType::RIGHT_BRACE, "Expected \"}\" after block starting with \"{\"");
+    return statements;
 }
 
 std::unique_ptr<Stmt> Parser::printStatement() {
@@ -70,7 +83,7 @@ std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr> left) {
 
     Token op = previous();
     std::unique_ptr<Expr> right = assignment();
-    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(std::move(left), op, std::move(right));
     return resolveCommas(std::move(binary));
 }
 
@@ -102,7 +115,7 @@ std::unique_ptr<Expr> Parser::resolveEqualities(std::unique_ptr<Expr> left) {
 
     Token op = previous();
     std::unique_ptr<Expr> right = comparison();
-    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(std::move(left), op, std::move(right));
     return resolveEqualities(std::move(binary));
 }
 
@@ -116,7 +129,7 @@ std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr> left) {
 
     Token op = previous();
     std::unique_ptr<Expr> right = additive();
-    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(std::move(left), op, std::move(right));
     return resolveComparisons(std::move(binary));
 }
 
@@ -130,7 +143,7 @@ std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr> left) {
 
     Token op = previous();
     std::unique_ptr<Expr> right = multiplicitive();
-    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(std::move(left), op, std::move(right));
     return resolveAdditives(std::move(binary));
 }
 
@@ -144,7 +157,7 @@ std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr> left)
 
     Token op = previous();
     std::unique_ptr<Expr> right = unary();
-    std::unique_ptr<Expr> binary = std::make_unique<Binary>(Binary(std::move(left), op, std::move(right)));
+    std::unique_ptr<Expr> binary = std::make_unique<Binary>(std::move(left), op, std::move(right));
     return resolveMultiplicitives(std::move(binary));
 }
 
@@ -152,7 +165,7 @@ std::unique_ptr<Expr> Parser::unary() {
     if (match({ TokenType::NOT, TokenType::MINUS })) {
         Token op = previous();
         std::unique_ptr<Expr> right = unary();
-        std::unique_ptr<Expr> unary = std::make_unique<Unary>(Unary(op, std::move(right)));
+        std::unique_ptr<Expr> unary = std::make_unique<Unary>(op, std::move(right));
         return unary;
     }
 
@@ -168,7 +181,7 @@ std::unique_ptr<Expr> Parser::primary() {
     else if (match({ TokenType::LEFT_PARENTHESE })) {
         std::unique_ptr<Expr> expr = expression();
         consume(TokenType::RIGHT_PARENTHESE, "Expected ')' after expression.");
-        std::unique_ptr<Expr> grouping = std::make_unique<Grouping>(Grouping(std::move(expr)));
+        std::unique_ptr<Expr> grouping = std::make_unique<Grouping>(std::move(expr));
         return grouping;
     }
 

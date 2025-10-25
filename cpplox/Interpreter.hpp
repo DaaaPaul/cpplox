@@ -21,12 +21,14 @@ public:
 	void visitVar(Var& v) override;
 	void visitVariable(Variable& v) override;
 	void visitAssign(Assign& a) override;
+	void visitBlock(Block& b) override;
 	std::variant<bool, double, std::string, std::monostate> getRollingValue() const { return rollingValue; }
 	std::string stringify() const;
 
 private:
 	void eval(std::unique_ptr<Expr>&& expr);
 	void execute(std::unique_ptr<Stmt>&& stmt);
+	void executeBlock(std::vector<std::unique_ptr<Stmt>>&& block, Environment inner);
 	bool isTruthy(std::variant<bool, double, std::string, std::monostate> const& value) const;
 	bool isEquey(std::variant<bool, double, std::string, std::monostate> const& left, std::variant<bool, double, std::string, std::monostate> const& right) const;
 	void ensureNumeracy(Token const& op, std::variant<bool, double, std::string, std::monostate> const& operand) const;

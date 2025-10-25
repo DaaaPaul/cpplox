@@ -19,6 +19,7 @@ private:
     std::unique_ptr<Stmt> varDeclaration();
     std::unique_ptr<Stmt> statement();
     std::unique_ptr<Stmt> printStatement();
+    std::vector<std::unique_ptr<Stmt>> block();
     std::unique_ptr<Stmt> expressionStatement();
 
     std::unique_ptr<Expr> expression();
@@ -42,7 +43,7 @@ private:
     Token advance() { if (!atEnd()) ++current; return previous(); }
     Token consume(TokenType type, std::string const& msg) { if (check(type)) return advance(); throw error(peek(), msg); }
     ParseError error(Token const& token, std::string const& msg) { Lox::reportError(token, msg); return ParseError(msg); }
-    bool atEnd() const { return current >= static_cast<int>(tokens.size() - 1); }
+    bool atEnd() const { return current >= static_cast<int>(tokens.size()); }
     Token peek() const { return tokens[current]; }
     Token previous() const { return tokens[current - 1]; }
 

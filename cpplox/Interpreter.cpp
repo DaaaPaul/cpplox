@@ -137,12 +137,31 @@ void Interpreter::visitAssign(Assign& a) {
 	environment.assign(a.identifier, rollingValue);
 }
 
+void Interpreter::visitBlock(Block& b) {
+	executeBlock(std::move(b.stmts), environment);
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }
 
 void Interpreter::execute(std::unique_ptr<Stmt>&& stmt) {
 	stmt->accept(*this);
+}
+
+void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block, Environment inner) {
+	Environment previous = environment;
+
+	try {
+		environment = inner;
+
+		for(std::unique_ptr<Stmt>& stmt : block) {
+			execute(std::move(stmt));
+		}
+	} catch(LoxRuntimeError const& e) {
+		environment = previous;
+		throw;
+	}
 }
 
 bool Interpreter::isTruthy(std::variant<bool, double, std::string, std::monostate> const& value) const {
