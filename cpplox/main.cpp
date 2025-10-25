@@ -3,7 +3,6 @@
 #include <memory>
 #include "Lox.hpp"
 #include "Token.hpp"
-#include "AstPrinter.hpp"
 
 int main() {
 	std::string mode;

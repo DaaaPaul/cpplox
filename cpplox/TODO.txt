@@ -1,2 +1,3 @@
 Bugs:
 	Error reporting is scuffed if theres comments
+	"vector subscript out of range"

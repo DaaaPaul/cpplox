@@ -6,7 +6,7 @@
 #include "Token.hpp"
 #include "Scanner.hpp"
 #include "Parser.hpp"
-#include "AstPrinter.hpp"
+#include "CheckType.hpp"
 
 bool Lox::hadError = false;
 bool Lox::hadRuntimeError = false;
@@ -38,6 +38,7 @@ void Lox::runPrompt() {
 
 	while(!quit) {
 		std::cout << R"(<Lox> )";
+
 		if(std::getline(std::cin, input)) {
 			if(input != "QQQ") {
 				run(input);
@@ -48,6 +49,7 @@ void Lox::runPrompt() {
 		} else {
 			quit = true;
 		}
+
 		hadError = false;
 		hadRuntimeError = false;
 	}
@@ -61,7 +63,18 @@ void Lox::run(std::string source) {
 
 	if (hadError) return;
 
-	interpreter.interperet(std::move(statements));
+	if (statements.size() == 1) {
+		CheckType checkType{};
+		statements[0]->accept(checkType);
+		if(checkType.whichType["EXPRSTMT"]) {
+			interpreter.interperet(std::move(statements));
+			std::cout << interpreter.stringify();
+		} else {
+			interpreter.interperet(std::move(statements));
+		}
+	} else {
+		interpreter.interperet(std::move(statements));
+	}
 }
 
 void Lox::reportError(Token const& token, std::string const& message) {
