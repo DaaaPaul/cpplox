@@ -1,5 +1,8 @@
-var a = 1;
-{
-	var a = a + 2;
-	print a;
+var a = "Jesus";
+var b = "Bus";
+
+if((a + b) == "Jesus Bus") {
+	print "Maybe you expected this";
+} else {
+	print "But really, I'm here";
 }

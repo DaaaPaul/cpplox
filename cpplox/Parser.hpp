@@ -20,6 +20,7 @@ private:
     std::unique_ptr<Stmt> statement();
     std::unique_ptr<Stmt> printStatement();
     std::vector<std::unique_ptr<Stmt>> block();
+    std::unique_ptr<Stmt> ifStatement();
     std::unique_ptr<Stmt> expressionStatement();
 
     std::unique_ptr<Expr> expression();

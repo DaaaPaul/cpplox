@@ -43,3 +43,13 @@ public:
 	Block(std::vector<std::unique_ptr<Stmt>>&& s) : innerStatements(std::move(s)) {}
 	void accept(Visitor& visitor) override { visitor.visitBlock(*this); }
 };
+
+class If : public Stmt {
+public:
+	std::unique_ptr<Expr> condition;
+	std::unique_ptr<Stmt> thenThis;
+	std::unique_ptr<Stmt> elseThis;
+
+	If(std::unique_ptr<Expr>&& c, std::unique_ptr<Stmt>&& t, std::unique_ptr<Stmt>&& e) : condition(std::move(c)), thenThis(std::move(t)), elseThis(std::move(e)) {}
+	void accept(Visitor& visitor) override { visitor.visitIf(*this); }
+};

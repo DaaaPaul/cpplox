@@ -42,7 +42,8 @@ std::unique_ptr<Stmt> Parser::varDeclaration() {
 
 std::unique_ptr<Stmt> Parser::statement() {
     if (match({ TokenType::PRINT })) return printStatement();
-    if (match({ TokenType::LEFT_BRACE })) return std::make_unique<Block>(block());
+    else if (match({ TokenType::LEFT_BRACE })) return std::make_unique<Block>(block());
+    else if (match({ TokenType::IF })) return ifStatement();
     else return expressionStatement();
 }
 
@@ -61,6 +62,20 @@ std::unique_ptr<Stmt> Parser::printStatement() {
     std::unique_ptr<Expr> toPrint = expression();
     consume(TokenType::SEMICOLON, "Expected \";\" after expression");
     return std::make_unique<Print>(std::move(toPrint));
+}
+
+std::unique_ptr<Stmt> Parser::ifStatement() {
+    consume(TokenType::LEFT_PARENTHESE, "Expected \"(\" after if");
+    std::unique_ptr<Expr> condition = expression();
+    consume(TokenType::RIGHT_PARENTHESE, "Expected closing \")\" after if");
+    std::unique_ptr<Stmt> thenBranch = statement();
+
+    std::unique_ptr<Stmt> elseBranch = nullptr;
+    if (match( {TokenType::ELSE} )) {
+        elseBranch = statement();
+    }
+
+    return std::make_unique<If>(std::move(condition), std::move(thenBranch), std::move(elseBranch));
 }
 
 std::unique_ptr<Stmt> Parser::expressionStatement() {

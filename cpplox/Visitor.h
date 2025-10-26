@@ -10,6 +10,7 @@ class Var;
 class Variable;
 class Assign;
 class Block;
+class If;
 
 class Visitor {
 public:
@@ -23,4 +24,5 @@ public:
 	virtual void visitVariable(Variable& v) = 0;
 	virtual void visitAssign(Assign& a) = 0;
 	virtual void visitBlock(Block& b) = 0;
+	virtual void visitIf(If& i) = 0;
 };

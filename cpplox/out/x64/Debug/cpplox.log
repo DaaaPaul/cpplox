@@ -1,2 +1,6 @@
-﻿  Lox.cpp
+﻿  CheckType.cpp
+  Interpreter.cpp
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Interpreter.cpp(174,33): warning C4101: 'e': unreferenced local variable
+  Lox.cpp
+  Generating Code...
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe

@@ -141,6 +141,16 @@ void Interpreter::visitBlock(Block& b) {
 	executeBlock(std::move(b.innerStatements), environment);
 }
 
+void Interpreter::visitIf(If& i) {
+	eval(std::move(i.condition));
+	
+	if(isTruthy(rollingValue)) {
+		execute(std::move(i.thenThis));
+	} else if(i.elseThis) {
+		execute(std::move(i.elseThis));
+	}
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }

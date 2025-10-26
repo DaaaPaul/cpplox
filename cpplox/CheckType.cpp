@@ -39,3 +39,7 @@ void CheckType::visitAssign(Assign& a) {
 void CheckType::visitBlock(Block& b) {
 	whichType["BLOCK"] = true;
 }
+
+void CheckType::visitIf(If& i) {
+	whichType["IF"] = true;
+}

@@ -16,6 +16,7 @@ public:
 	void visitVariable(Variable& v);
 	void visitAssign(Assign& a);
 	void visitBlock(Block& b);
+	void visitIf(If& i);
 
 	std::unordered_map<std::string, bool> whichType = {
 		{"LITERAL", false},
@@ -28,6 +29,7 @@ public:
 		{"VARIABLE", false},
 		{"ASSIGN", false},
 		{"BLOCK", false},
+		{"IF", false},
 	};
 };
 

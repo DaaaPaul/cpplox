@@ -22,6 +22,7 @@ public:
 	void visitVariable(Variable& v) override;
 	void visitAssign(Assign& a) override;
 	void visitBlock(Block& b) override;
+	void visitIf(If& i) override;
 	std::variant<bool, double, std::string, std::monostate> getRollingValue() const { return rollingValue; }
 	std::string stringify() const;
 
