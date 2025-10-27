@@ -11,6 +11,7 @@ class Variable;
 class Assign;
 class Block;
 class If;
+class Logical;
 
 class Visitor {
 public:
@@ -25,4 +26,5 @@ public:
 	virtual void visitAssign(Assign& a) = 0;
 	virtual void visitBlock(Block& b) = 0;
 	virtual void visitIf(If& i) = 0;
+	virtual void visitLogical(Logical& l) = 0;
 };

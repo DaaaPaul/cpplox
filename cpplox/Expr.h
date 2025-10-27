@@ -51,6 +51,16 @@ public:
 	void accept(Visitor& visitor) override { visitor.visitBinary(*this); }
 };
 
+class Logical : public Expr {
+public:
+	std::unique_ptr<Expr> left;
+	Token op;
+	std::unique_ptr<Expr> right;
+
+	Logical(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
+	void accept(Visitor& visitor) override { visitor.visitLogical(*this); }
+};
+
 class Variable : public Expr {
 public:
 	Token identifier;

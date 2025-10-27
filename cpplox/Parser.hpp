@@ -25,16 +25,18 @@ private:
 
     std::unique_ptr<Expr> expression();
     std::unique_ptr<Expr> comma();
+    std::unique_ptr<Expr> resolveCommas(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> assignment();
-    std::unique_ptr<Expr> resolveCommas(std::unique_ptr<Expr> left);
+    std::unique_ptr<Expr> logical();
+    std::unique_ptr<Expr> resolveLogicals(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> equality();
-    std::unique_ptr<Expr> resolveEqualities(std::unique_ptr<Expr> left);
+    std::unique_ptr<Expr> resolveEqualities(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> comparison();
-    std::unique_ptr<Expr> resolveComparisons(std::unique_ptr<Expr> left);
+    std::unique_ptr<Expr> resolveComparisons(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> additive();
-    std::unique_ptr<Expr> resolveAdditives(std::unique_ptr<Expr> left);
+    std::unique_ptr<Expr> resolveAdditives(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> multiplicitive();
-    std::unique_ptr<Expr> resolveMultiplicitives(std::unique_ptr<Expr> left);
+    std::unique_ptr<Expr> resolveMultiplicitives(std::unique_ptr<Expr>&& left);
     std::unique_ptr<Expr> unary();
     std::unique_ptr<Expr> primary();
 

@@ -1,4 +1,4 @@
-var a = "Jesus";
+var a = "Jesus ";
 var b = "Bus";
 
 if((a + b) == "Jesus Bus") {

@@ -43,3 +43,7 @@ void CheckType::visitBlock(Block& b) {
 void CheckType::visitIf(If& i) {
 	whichType["IF"] = true;
 }
+
+void CheckType::visitLogical(Logical& i) {
+	whichType["LOGICAL"] = true;
+}

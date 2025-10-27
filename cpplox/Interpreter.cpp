@@ -108,6 +108,24 @@ void Interpreter::visitBinary(Binary& binary) {
 	}
 }
 
+void Interpreter::visitLogical(Logical& l) {
+	eval(std::move(l.left));
+
+	if(l.op.getType() == TokenType::OR) {
+		if(isTruthy(rollingValue)) {
+			rollingValue = rollingValue;
+		} else {
+			eval(std::move(l.right));
+		}
+	} else if(l.op.getType() == TokenType::AND) {
+		if(!isTruthy(rollingValue)) {
+			rollingValue = rollingValue;
+		} else {
+			eval(std::move(l.right));
+		}
+	}
+}
+
 void Interpreter::visitExprStmt(ExprStmt& exprStmt) {
 	eval(std::move(exprStmt.expr));
 }

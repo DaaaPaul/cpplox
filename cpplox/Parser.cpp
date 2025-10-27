@@ -93,7 +93,7 @@ std::unique_ptr<Expr> Parser::comma() {
     return resolveCommas(std::move(assignExpr));
 }
 
-std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr> left) {
+std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr>&& left) {
     if (!match({ TokenType::COMMA })) return left;
 
     Token op = previous();
@@ -103,29 +103,44 @@ std::unique_ptr<Expr> Parser::resolveCommas(std::unique_ptr<Expr> left) {
 }
 
 std::unique_ptr<Expr> Parser::assignment() {
-    std::unique_ptr<Expr> equalityExpr = equality();
+    std::unique_ptr<Expr> expr = logical();
 
     if(match( {TokenType::EQUAL} )) {
         const Token equals = previous();
         std::unique_ptr<Expr> initializer = assignment();
 
         try {
-            const Token identifier = (dynamic_cast<Variable&>(*equalityExpr)).identifier;
+            const Token identifier = (dynamic_cast<Variable&>(*expr)).identifier;
             return std::make_unique<Assign>(identifier, std::move(initializer));
         } catch(std::bad_cast const& e) {
             error(equals, "Assignment must be to a valid variable");
         }
     }
 
-    return equalityExpr;
+    return expr;
 }
+
+std::unique_ptr<Expr> Parser::logical() {
+    std::unique_ptr expr = equality();
+    return resolveLogicals(std::move(expr));
+}
+
+std::unique_ptr<Expr> Parser::resolveLogicals(std::unique_ptr<Expr>&& left) {
+    if (!match({ TokenType::AND, TokenType::OR })) return left;
+
+    Token op = previous();
+    std::unique_ptr<Expr> right = equality();
+    std::unique_ptr<Expr> logical = std::make_unique<Logical>(std::move(left), op, std::move(right));
+    return resolveLogicals(std::move(logical));
+}
+
 
 std::unique_ptr<Expr> Parser::equality() {
     std::unique_ptr<Expr> comparisonExpr = comparison();
     return resolveEqualities(std::move(comparisonExpr));
 }
 
-std::unique_ptr<Expr> Parser::resolveEqualities(std::unique_ptr<Expr> left) {
+std::unique_ptr<Expr> Parser::resolveEqualities(std::unique_ptr<Expr>&& left) {
     if (!match({ TokenType::NOT_EQUAL, TokenType::EQUAL_EQUAL })) return left;
 
     Token op = previous();
@@ -139,7 +154,7 @@ std::unique_ptr<Expr> Parser::comparison() {
     return resolveComparisons(std::move(additiveExpr));
 }
 
-std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr> left) {
+std::unique_ptr<Expr> Parser::resolveComparisons(std::unique_ptr<Expr>&& left) {
     if (!match({ TokenType::GREATER, TokenType::GREATER_EQUAL, TokenType::LESSER, TokenType::LESSER_EQUAL })) return left;
 
     Token op = previous();
@@ -153,7 +168,7 @@ std::unique_ptr<Expr> Parser::additive() {
     return resolveAdditives(std::move(multiplicitiveExpr));
 }
 
-std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr> left) {
+std::unique_ptr<Expr> Parser::resolveAdditives(std::unique_ptr<Expr>&& left) {
     if (!match({ TokenType::PLUS, TokenType::MINUS })) return left;
 
     Token op = previous();
@@ -167,7 +182,7 @@ std::unique_ptr<Expr> Parser::multiplicitive() {
     return resolveMultiplicitives(std::move(unaryExpr));
 }
 
-std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr> left) {
+std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr>&& left) {
     if (!match({ TokenType::STAR, TokenType::SLASH })) return left;
 
     Token op = previous();
