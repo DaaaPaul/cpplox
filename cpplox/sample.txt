@@ -1,8 +1,6 @@
-var a = "Jesus ";
-var b = "Bus";
+var i = 1;
 
-if((a + b) == "Jesus Bus") {
-	print "Maybe you expected this";
-} else {
-	print "But really, I'm here";
+while(i <= 1000) {
+	if(i % 4 == 0) print i;
+	i = i + 1;
 }

@@ -83,6 +83,17 @@ void Interpreter::visitBinary(Binary& binary) {
 			if(!(std::get<double>(rollingValue) == 0.0)) rollingValue = std::get<double>(left) / std::get<double>(rollingValue);
 			else throw LoxRuntimeError(op, "Divison by zero is undefined");
 			break;
+		case TokenType::PERCENT:
+			ensureNumeracies(op, left, rollingValue);
+
+			if(checkInt(std::get<double>(left)) && checkInt(std::get<double>(rollingValue))) {
+				if(std::get<double>(rollingValue) == 0.0) throw LoxRuntimeError(op, "Modulo by zero is undefined");
+				rollingValue = static_cast<double>(static_cast<int>(std::get<double>(left)) % static_cast<int>(std::get<double>(rollingValue)));
+			} else {
+				throw LoxRuntimeError(op, "Cannot modulo by decimal numbers");
+			}
+
+			break;
 		case TokenType::GREATER_EQUAL:
 			ensureStringsOrNumeracies(op, left, rollingValue);
 			rollingValue = left >= rollingValue;
@@ -156,7 +167,7 @@ void Interpreter::visitAssign(Assign& a) {
 }
 
 void Interpreter::visitBlock(Block& b) {
-	executeBlock(std::move(b.innerStatements), environment);
+	executeBlock(std::move(b.innerStatements));
 }
 
 void Interpreter::visitIf(If& i) {
@@ -170,12 +181,11 @@ void Interpreter::visitIf(If& i) {
 }
 
 void Interpreter::visitWhile(While& w) {
-	eval(std::move(w.condition));
+	eval(w.condition->returnCopy());
 
 	while(isTruthy(rollingValue)) {
-		execute(std::move(w.repeated));
-
-		eval(std::move(w.condition));
+		execute(w.repeated->returnCopy());
+		eval(w.condition->returnCopy());
 	}
 }
 
@@ -187,15 +197,16 @@ void Interpreter::execute(std::unique_ptr<Stmt>&& stmt) {
 	stmt->accept(*this);
 }
 
-void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block, Environment inner) {
+void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block) {
 	Environment previous = environment;
 
 	try {
-		environment = inner;
+		environment = Environment();
 		environment.setEnclosing(previous);
 
 		for(std::unique_ptr<Stmt>& stmt : block) {
 			execute(std::move(stmt));
+			previous = environment.getEnclosing();
 		}
 
 		environment = previous;
@@ -233,15 +244,19 @@ void Interpreter::ensureStringsOrNumeracies(Token const& op, std::variant<bool, 
 	else throw LoxRuntimeError(op, "Both operands must be either numbers or strings");
 }
 
-std::string Interpreter::doubleToCleanString(double const& d) const {
-	std::string number = std::to_string(d);
-
+bool Interpreter::checkInt(double const& d) const {
 	double integralPart = -1.0;
 	double decimalPart = -1.0;
 	decimalPart = std::modf(d, &integralPart);
 
-	if (decimalPart == 0.0) {
-		number = std::to_string(static_cast<int>(integralPart));
+	return (decimalPart == 0.0) ? true : false;
+}
+
+std::string Interpreter::doubleToCleanString(double const& d) const {
+	std::string number = std::to_string(d);
+
+	if (checkInt(d)) {
+		number = std::to_string(static_cast<int>(d));
 	}
 
 	return number;

@@ -18,6 +18,7 @@ public:
 	void assign(Token const& nameToken, std::variant<bool, double, std::string, std::monostate> const& value);
 	std::variant<bool, double, std::string, std::monostate> get(Token const& nameToken) const;
 	void setEnclosing(Environment const& e);
+	Environment getEnclosing() const;
 
 private:
 	std::unique_ptr<Environment> enclosing{};

@@ -34,7 +34,7 @@ void Environment::define(std::string const& name, std::variant<bool, double, std
 void Environment::assign(Token const& nameToken, std::variant<bool, double, std::string, std::monostate> const& value) {
 	std::string const& name = nameToken.toLexeme();
 
-	if (!(variables.find(name) == variables.end())) {
+	if (variables.find(name) != variables.end()) {
 		variables[name] = value;
 	} else if(enclosing != nullptr) {
 		enclosing->assign(nameToken, value);
@@ -46,7 +46,7 @@ void Environment::assign(Token const& nameToken, std::variant<bool, double, std:
 std::variant<bool, double, std::string, std::monostate> Environment::get(Token const& nameToken) const {
 	std::string const& name = nameToken.toLexeme();
 
-	if (!(variables.find(name) == variables.end())) {
+	if (variables.find(name) != variables.end()) {
 		return variables.at(name);
 	} else if(enclosing != nullptr) {
 		return enclosing->get(nameToken);
@@ -57,4 +57,8 @@ std::variant<bool, double, std::string, std::monostate> Environment::get(Token c
 
 void Environment::setEnclosing(Environment const& e) {
 	enclosing = std::make_unique<Environment>(e);
+}
+
+Environment Environment::getEnclosing() const {
+	return *enclosing;
 }

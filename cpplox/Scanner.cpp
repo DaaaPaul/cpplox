@@ -141,6 +141,7 @@ void Scanner::scanToken() {
 		case '+': addToken(TokenType::PLUS); break;
 		case ';': addToken(TokenType::SEMICOLON); break;
 		case '*': addToken(TokenType::STAR); break;
+		case '%': addToken(TokenType::PERCENT); break;
 		case '!': (currentIs('=')) ? (++current, addToken(TokenType::NOT_EQUAL)) : addToken(TokenType::NOT); break;
 		case '=': (currentIs('=')) ? (++current, addToken(TokenType::EQUAL_EQUAL)) : addToken(TokenType::EQUAL); break;
 		case '>': (currentIs('=')) ? (++current, addToken(TokenType::GREATER_EQUAL)) : addToken(TokenType::GREATER); break;

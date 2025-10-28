@@ -10,6 +10,7 @@ class Expr {
 public:
 	virtual ~Expr() {}
 	virtual void accept(Visitor& visitor) = 0;
+	virtual std::unique_ptr<Expr> returnCopy() const = 0;
 };
 
 class Literal : public Expr {
@@ -22,6 +23,7 @@ public:
 	Literal(std::monostate const& m) : value(m) {}
 	Literal(std::variant<bool, double, std::string, std::monostate> const& v) : value(v) {}
 	void accept(Visitor& visitor) override { visitor.visitLiteral(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Literal>(value); }
 };
 
 class Grouping : public Expr {
@@ -30,6 +32,7 @@ public:
 
 	Grouping(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitGrouping(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Grouping>(expr->returnCopy()); }
 };
 
 class Unary : public Expr {
@@ -39,6 +42,7 @@ public:
 
 	Unary(Token const& o, std::unique_ptr<Expr>&& r) : op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitUnary(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Unary>(op, right->returnCopy()); }
 };
 
 class Binary : public Expr {
@@ -49,6 +53,7 @@ public:
 
 	Binary(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitBinary(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Binary>(left->returnCopy(), op, right->returnCopy()); }
 };
 
 class Logical : public Expr {
@@ -59,6 +64,7 @@ public:
 
 	Logical(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitLogical(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Logical>(left->returnCopy(), op, right->returnCopy()); }
 };
 
 class Variable : public Expr {
@@ -67,6 +73,7 @@ public:
 
 	Variable(Token const& t) : identifier(t) {}
 	void accept(Visitor& visitor) override { visitor.visitVariable(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Variable>(identifier); }
 };
 
 class Assign : public Expr {
@@ -76,4 +83,5 @@ public:
 
 	Assign(Token const& t, std::unique_ptr<Expr>&& e) : identifier(t), initializer(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitAssign(*this); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Assign>(identifier, initializer->returnCopy()); }
 };

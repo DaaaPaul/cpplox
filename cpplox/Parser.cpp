@@ -193,7 +193,7 @@ std::unique_ptr<Expr> Parser::multiplicitive() {
 }
 
 std::unique_ptr<Expr> Parser::resolveMultiplicitives(std::unique_ptr<Expr>&& left) {
-    if (!match({ TokenType::STAR, TokenType::SLASH })) return left;
+    if (!match({ TokenType::STAR, TokenType::SLASH, TokenType::PERCENT })) return left;
 
     Token op = previous();
     std::unique_ptr<Expr> right = unary();
