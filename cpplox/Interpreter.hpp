@@ -24,6 +24,7 @@ public:
 	void visitBlock(Block& b) override;
 	void visitIf(If& i) override;
 	void visitLogical(Logical& l) override;
+	void visitWhile(While& w) override;
 	std::variant<bool, double, std::string, std::monostate> getRollingValue() const { return rollingValue; }
 	std::string stringify() const;
 

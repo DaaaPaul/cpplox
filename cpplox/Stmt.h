@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <stdexcept>
 #include "Expr.h"
 #include "Visitor.h"
 
@@ -52,4 +53,13 @@ public:
 
 	If(std::unique_ptr<Expr>&& c, std::unique_ptr<Stmt>&& t, std::unique_ptr<Stmt>&& e) : condition(std::move(c)), thenThis(std::move(t)), elseThis(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitIf(*this); }
+};
+
+class While : public Stmt {
+public:
+	std::unique_ptr<Expr> condition;
+	std::unique_ptr<Stmt> repeated;
+
+	While(std::unique_ptr<Expr>&& c, std::unique_ptr<Stmt>&& r) : condition(std::move(c)), repeated(std::move(r)) {}
+	void accept(Visitor& visitor) override { visitor.visitWhile(*this); }
 };

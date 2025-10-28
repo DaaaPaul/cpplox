@@ -47,3 +47,7 @@ void CheckType::visitIf(If& i) {
 void CheckType::visitLogical(Logical& i) {
 	whichType["LOGICAL"] = true;
 }
+
+void CheckType::visitWhile(While& i) {
+	whichType["WHILE"] = true;
+}

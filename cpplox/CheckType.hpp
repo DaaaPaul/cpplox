@@ -18,6 +18,7 @@ public:
 	void visitBlock(Block& b);
 	void visitIf(If& i);
 	void visitLogical(Logical& l);
+	void visitWhile(While& w);
 
 	std::unordered_map<std::string, bool> whichType = {
 		{"LITERAL", false},
@@ -31,7 +32,8 @@ public:
 		{"ASSIGN", false},
 		{"BLOCK", false},
 		{"IF", false},
-		{"LOGICAL", false}
+		{"LOGICAL", false},
+		{"WHILE", false}
 	};
 };
 

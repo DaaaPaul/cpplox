@@ -12,6 +12,7 @@ class Assign;
 class Block;
 class If;
 class Logical;
+class While;
 
 class Visitor {
 public:
@@ -27,4 +28,5 @@ public:
 	virtual void visitBlock(Block& b) = 0;
 	virtual void visitIf(If& i) = 0;
 	virtual void visitLogical(Logical& l) = 0;
+	virtual void visitWhile(While& w) = 0;
 };

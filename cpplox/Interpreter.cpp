@@ -169,6 +169,16 @@ void Interpreter::visitIf(If& i) {
 	}
 }
 
+void Interpreter::visitWhile(While& w) {
+	eval(std::move(w.condition));
+
+	while(isTruthy(rollingValue)) {
+		execute(std::move(w.repeated));
+
+		eval(std::move(w.condition));
+	}
+}
+
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
 	expr->accept(*this);
 }
