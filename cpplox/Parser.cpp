@@ -45,6 +45,7 @@ std::unique_ptr<Stmt> Parser::statement() {
     else if (match({ TokenType::LEFT_BRACE })) return std::make_unique<Block>(block());
     else if (match({ TokenType::IF })) return ifStatement();
     else if (match({ TokenType::WHILE })) return whileStatement();
+    else if (match({ TokenType::FOR })) return forStatement();
     else return expressionStatement();
 }
 
@@ -86,6 +87,42 @@ std::unique_ptr<Stmt> Parser::whileStatement() {
     std::unique_ptr<Stmt> repeatThis = statement();
 
     return std::make_unique<While>(std::move(condition), std::move(repeatThis));
+}
+
+std::unique_ptr<Stmt> Parser::forStatement() {
+    consume(TokenType::LEFT_PARENTHESE, "Expected \"(\" after for");
+
+    std::unique_ptr<Stmt> initializer = nullptr;
+    if (match({ TokenType::SEMICOLON }));
+    else if (match({ TokenType::VAR })) initializer = varDeclaration(); 
+    else initializer = expressionStatement();
+
+    std::unique_ptr<Expr> condition = std::make_unique<Literal>(true);
+    if (!check(TokenType::SEMICOLON)) {
+        condition = expression();
+    }
+    consume(TokenType::SEMICOLON, "Expected \";\" after for loop condition");
+
+    std::unique_ptr<Expr> crement = nullptr;
+    if (!check(TokenType::RIGHT_PARENTHESE)) {
+        crement = expression();
+    }
+    consume(TokenType::RIGHT_PARENTHESE, "Expected \")\" after for loop crement");
+
+    std::unique_ptr<Stmt> repeatedStatement = statement();
+
+    // begin converting our "raw info" to while AST node
+    std::vector<std::unique_ptr<Stmt>> innerStatements;
+    innerStatements.push_back(std::move(repeatedStatement));
+    innerStatements.push_back(std::make_unique<ExprStmt>(std::move(crement)));
+    std::unique_ptr<Stmt> whileBody = std::make_unique<Block>(std::move(innerStatements));
+
+    std::unique_ptr<Stmt> whileLoop = std::make_unique<While>(std::move(condition), std::move(whileBody));
+    std::vector<std::unique_ptr<Stmt>> theFinalStatements;
+    theFinalStatements.push_back(std::move(initializer));
+    theFinalStatements.push_back(std::move(whileLoop));
+
+    return std::make_unique<Block>(std::move(theFinalStatements));
 }
 
 std::unique_ptr<Stmt> Parser::expressionStatement() {

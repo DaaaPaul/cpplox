@@ -190,11 +190,13 @@ void Interpreter::visitWhile(While& w) {
 }
 
 void Interpreter::eval(std::unique_ptr<Expr>&& expr) {
-	expr->accept(*this);
+	if (!expr) return;
+	else expr->accept(*this);
 }
 
 void Interpreter::execute(std::unique_ptr<Stmt>&& stmt) {
-	stmt->accept(*this);
+	if (!stmt) return;
+	else stmt->accept(*this);
 }
 
 void Interpreter::executeBlock(std::vector<std::unique_ptr<Stmt>>&& block) {

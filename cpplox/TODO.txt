@@ -1,3 +1,6 @@
 Bugs:
 	Error reporting is scuffed if theres comments
 	"vector subscript out of range" when no semicolon at end
+
+Fun:
+	Add simple comments and a simple overview using README.md

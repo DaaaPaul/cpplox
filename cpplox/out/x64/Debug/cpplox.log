@@ -1,10 +1,4 @@
-﻿  Interpreter.cpp
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Interpreter.cpp(213,33): warning C4101: 'e': unreferenced local variable
-  Lox.cpp
-  Parser.cpp
+﻿  Parser.cpp
 C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(27,31): warning C4101: 'e': unreferenced local variable
-C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(125,38): warning C4101: 'e': unreferenced local variable
-  Scanner.cpp
-  main.cpp
-  Generating Code...
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(162,38): warning C4101: 'e': unreferenced local variable
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe

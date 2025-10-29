@@ -19,7 +19,7 @@ public:
 
 	ExprStmt(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitExprStmt(*this); }
-	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<ExprStmt>(expr->returnCopy()); }
+	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<ExprStmt>((expr) ? expr->returnCopy() : nullptr); }
 };
 
 class Print : public Stmt {
@@ -28,7 +28,7 @@ public:
 
 	Print(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitPrint(*this); }
-	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<Print>(expr->returnCopy()); }
+	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<Print>((expr) ? expr->returnCopy() : nullptr); }
 };
 
 class Var : public Stmt {
@@ -48,13 +48,13 @@ public:
 	Block(std::vector<std::unique_ptr<Stmt>>&& s) : innerStatements(std::move(s)) {}
 	void accept(Visitor& visitor) override { visitor.visitBlock(*this); }
 	std::unique_ptr<Stmt> returnCopy() const override {
-		std::vector<std::unique_ptr<Stmt>> theGiftBack;
+		std::vector<std::unique_ptr<Stmt>> theBlockInnardsBack;
 
 		for(std::unique_ptr<Stmt> const& s : innerStatements) {
-			theGiftBack.push_back(s->returnCopy());
+			theBlockInnardsBack.push_back((s) ? s->returnCopy() : nullptr);
 		}
 
-		return std::make_unique<Block>(std::move(theGiftBack));
+		return std::make_unique<Block>(std::move(theBlockInnardsBack));
 	}
 };
 
@@ -66,7 +66,7 @@ public:
 
 	If(std::unique_ptr<Expr>&& c, std::unique_ptr<Stmt>&& t, std::unique_ptr<Stmt>&& e) : condition(std::move(c)), thenThis(std::move(t)), elseThis(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitIf(*this); }
-	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<If>(condition->returnCopy(), thenThis->returnCopy(), (elseThis) ? elseThis->returnCopy() : nullptr); }
+	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<If>((condition) ? condition->returnCopy() : nullptr, (thenThis) ? thenThis->returnCopy() : nullptr, (elseThis) ? elseThis->returnCopy() : nullptr); }
 };
 
 class While : public Stmt {
@@ -76,5 +76,5 @@ public:
 
 	While(std::unique_ptr<Expr>&& c, std::unique_ptr<Stmt>&& r) : condition(std::move(c)), repeated(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitWhile(*this); }
-	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<While>(condition->returnCopy(), repeated->returnCopy()); }
+	std::unique_ptr<Stmt> returnCopy() const override { return std::make_unique<While>((condition) ? condition->returnCopy() : nullptr, (repeated) ? repeated->returnCopy() : nullptr); }
 };

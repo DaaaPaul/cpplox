@@ -32,7 +32,7 @@ public:
 
 	Grouping(std::unique_ptr<Expr>&& e) : expr(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitGrouping(*this); }
-	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Grouping>(expr->returnCopy()); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Grouping>((expr) ? expr->returnCopy() : nullptr); }
 };
 
 class Unary : public Expr {
@@ -42,7 +42,7 @@ public:
 
 	Unary(Token const& o, std::unique_ptr<Expr>&& r) : op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitUnary(*this); }
-	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Unary>(op, right->returnCopy()); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Unary>(op, (right) ? right->returnCopy() : nullptr); }
 };
 
 class Binary : public Expr {
@@ -53,7 +53,7 @@ public:
 
 	Binary(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitBinary(*this); }
-	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Binary>(left->returnCopy(), op, right->returnCopy()); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Binary>((left) ? left->returnCopy() : nullptr, op, (right) ? right->returnCopy() : nullptr); }
 };
 
 class Logical : public Expr {
@@ -64,7 +64,7 @@ public:
 
 	Logical(std::unique_ptr<Expr>&& l, Token const& o, std::unique_ptr<Expr>&& r) : left(std::move(l)), op(o), right(std::move(r)) {}
 	void accept(Visitor& visitor) override { visitor.visitLogical(*this); }
-	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Logical>(left->returnCopy(), op, right->returnCopy()); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Logical>((left) ? left->returnCopy() : nullptr, op, (right) ? right->returnCopy() : nullptr); }
 };
 
 class Variable : public Expr {
@@ -83,5 +83,5 @@ public:
 
 	Assign(Token const& t, std::unique_ptr<Expr>&& e) : identifier(t), initializer(std::move(e)) {}
 	void accept(Visitor& visitor) override { visitor.visitAssign(*this); }
-	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Assign>(identifier, initializer->returnCopy()); }
+	std::unique_ptr<Expr> returnCopy() const override { return std::make_unique<Assign>(identifier, (initializer) ? initializer->returnCopy() : nullptr); }
 };
