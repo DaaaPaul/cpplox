@@ -63,6 +63,7 @@ void Lox::run(std::string source) {
 
 	if (hadError) return;
 
+	// check if only 1 expression statement, if so implicitly print result
 	if (statements.size() == 1) {
 		CheckType checkType{};
 		statements[0]->accept(checkType);
@@ -70,10 +71,10 @@ void Lox::run(std::string source) {
 			interpreter.interperet(std::move(statements));
 			std::cout << interpreter.stringify();
 		} else {
-			interpreter.interperet(std::move(statements));
+			interpreter.interperet(std::move(statements)); // otherwise interpret normally
 		}
 	} else {
-		interpreter.interperet(std::move(statements));
+		interpreter.interperet(std::move(statements)); // otherwise interpret normally
 	}
 }
 
