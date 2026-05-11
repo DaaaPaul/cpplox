@@ -1,2 +1,15 @@
-﻿  main.cpp
+﻿  CheckType.cpp
+  Environment.cpp
+  Interpreter.cpp
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Interpreter.cpp(215,33): warning C4101: 'e': unreferenced local variable
+  Lox.cpp
+  main.cpp
+  Parser.cpp
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(27,31): warning C4101: 'e': unreferenced local variable
+C:\Users\paulp\ComputerPrograms\cpplox\cpplox\Parser.cpp(162,38): warning C4101: 'e': unreferenced local variable
+  Scanner.cpp
+  Token.cpp
+  Generating Code...
   cpplox.vcxproj -> C:\Users\paulp\ComputerPrograms\cpplox\cpplox\out\x64\Debug\cpplox.exe
+  'pwsh.exe' is not recognized as an internal or external command,
+  operable program or batch file.
